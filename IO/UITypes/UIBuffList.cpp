@@ -73,7 +73,7 @@ bool BuffIcon::update()
 
 UIBuffList::UIBuffList()
 {
-    position = {750, 40};
+    position = {/* 750 */ 974, 40};
     active = true;
 }
 
@@ -89,8 +89,7 @@ void UIBuffList::draw(float alpha) const
 void UIBuffList::update()
 {
     for (auto iter = icons.begin(); iter != icons.end();) {
-        bool expired = iter->second.update();
-        if (expired) {
+        if (bool expired = iter->second.update(); expired) {
             iter = icons.erase(iter);
         } else {
             ++iter;

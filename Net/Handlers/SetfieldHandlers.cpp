@@ -82,9 +82,9 @@ void SetfieldHandler::set_field(InPacket& recv) const
 
     std::int32_t cid = recv.read_int();
 
-    auto charselect = UI::get().get_element<UICharSelect>();
-    if (charselect) {
-        const CharEntry& player_entry = charselect->get_character(cid);
+    if (auto char_select = UI::get().get_element<UICharSelect>();
+        char_select) {
+        const CharEntry& player_entry = char_select->get_character(cid);
         if (player_entry.cid != cid) {
             return;
         }
@@ -92,9 +92,9 @@ void SetfieldHandler::set_field(InPacket& recv) const
         Stage::get().loadplayer(player_entry);
     }
 
-    LoginParser::parse_stats(recv);
-
     Player& player = Stage::get().get_player();
+    player.set_stats(LoginParser::parse_stats(
+        recv)); // TODO: Not sure if `set_stats` is necessary here
 
     recv.read_byte(); // 'buddycap'
     if (recv.read_bool()) {

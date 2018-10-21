@@ -187,7 +187,7 @@ const SkillData::Stats& SkillData::get_stats(std::int32_t level) const noexcept
 {
     auto iter = stats.find(level);
     if (iter == stats.end()) {
-        static constexpr Stats null_stats{
+        static constexpr const Stats null_stats{
             0.0f, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0f, 0.0f, 0.0f, 0.0f, {}};
         return null_stats;
     }
@@ -206,9 +206,8 @@ std::string_view SkillData::get_desc() const noexcept
 
 std::string_view SkillData::get_level_desc(std::int32_t level) const noexcept
 {
-    auto iter = levels.find(level);
-    if (iter == levels.end()) {
-        static constexpr std::string_view null_level
+    if (auto iter = levels.find(level); iter == levels.end()) {
+        static constexpr const std::string_view null_level
             = "Missing level description.";
         return null_level;
     } else {

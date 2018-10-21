@@ -38,10 +38,10 @@ Combat::Combat(Player& in_player, MapChars& in_chars, MapMobs& in_mobs)
 
 void Combat::draw(double viewx, double viewy, float alpha) const
 {
-    for (auto& be : bullets) {
+    for (const auto& be : bullets) {
         be.bullet.draw(viewx, viewy, alpha);
     }
-    for (auto& dn : damage_numbers) {
+    for (const auto& dn : damage_numbers) {
         dn.draw(viewx, viewy, alpha);
     }
 }
@@ -155,8 +155,9 @@ void Combat::apply_result_movement(const SpecialMove& move,
 
 void Combat::apply_rush(const AttackResult& result)
 {
-    if (result.mob_count == 0)
+    if (result.mob_count == 0) {
         return;
+    }
 
     Point<std::int16_t> mob_position = mobs.get_mob_position(result.last_oid);
     std::int16_t targetx = mob_position.x();
@@ -191,7 +192,8 @@ void Combat::push_attack(const AttackResult& attack)
 
 void Combat::apply_attack(const AttackResult& attack)
 {
-    if (nullable_ptr<OtherChar> ouser = chars.get_char(attack.attacker)) {
+    if (nullable_ptr<OtherChar> ouser = chars.get_char(attack.attacker);
+        ouser) {
         OtherChar& user = *ouser;
         user.update_skill(attack.skill, attack.level);
         user.update_speed(attack.speed);

@@ -36,13 +36,10 @@ UILoginNotice::UILoginNotice(Message id)
     position = {292, 200};
     dimension = {362, 219};
     active = true;
-
-    Console::get().print("conStructed");
 }
 
 void UILoginNotice::draw(float alpha) const
 {
-    Console::get().print("draWering");
     background.draw(position);
     text.draw(position, alpha);
 

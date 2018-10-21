@@ -48,7 +48,7 @@ SkillIcon::SkillIcon(std::int32_t i, std::int32_t lv) : id{i}
     level = {Text::A11L, Text::LEFT, Text::DARKGREY, std::to_string(lv)};
     state = NORMAL;
 
-    static constexpr const std::uint16_t MAX_NAME_WIDTH = 96;
+    constexpr const std::uint16_t MAX_NAME_WIDTH = 96;
     std::size_t overhang = 3;
     while (name.width() > MAX_NAME_WIDTH) {
         name_str.replace(name_str.end() - overhang, name_str.end(), "...", 3);
@@ -288,17 +288,25 @@ Cursor::State UISkillbook::send_cursor(bool clicked,
             = iter->first->send_cursor(normalized, clicked);
             state) {
             switch (state) {
-            case Cursor::GRABBING:
-                clear_tooltip();
-                iter->second->start_drag(normalized);
-                UI::get().drag_icon(iter->second.get());
+            case Cursor::GRABBING: {
+                if (auto skill_id = iter->first->get_id();
+                    skillbook.get_level(skill_id) > 0
+                    && !SkillData::get(skill_id)
+                            .is_passive()) { // Can't drag untrained skills or
+                                             // passives
+                    clear_tooltip();
+                    iter->second->start_drag(normalized);
+                    UI::get().drag_icon(iter->second.get());
+                }
                 break;
+            }
             case Cursor::CAN_GRAB:
                 show_skill(iter->first->get_id());
                 break;
             default:
                 break;
             }
+
             return state;
         }
 
@@ -454,12 +462,22 @@ void UISkillbook::send_spup(std::uint16_t row)
     }
 
     std::int32_t skill_id = icons[row].first->get_id();
-
     SpendSpPacket{skill_id}.dispatch();
+
+    /*
+    if (skill_id < 10'000) { // Beginner skill
+        auto& player = Stage::get().get_player();
+        std::uint16_t new_sp = player.get_stats().get_stat(Maplestat::SP) - 1;
+
+        player.get_stats().set_stat(Maplestat::SP, new_sp);
+        update_stat(Maplestat::SP, new_sp);
+    }
+    */
+
     UI::get().disable();
 }
 
-Job::Level UISkillbook::job_level_by_tab(std::uint16_t t) const
+Job::Level UISkillbook::job_level_by_tab(std::uint16_t t) const noexcept
 {
     switch (t) {
     case 1:

@@ -268,7 +268,6 @@ Button::State UICharCreation::button_pressed(std::uint16_t id)
                 NameCharPacket{name}.dispatch();
                 return Button::PRESSED;
             } else {
-                Console::get().print("empLacing");
                 UI::get().emplace<UILoginNotice>(UILoginNotice::ILLEGAL_NAME);
                 return Button::NORMAL;
             }

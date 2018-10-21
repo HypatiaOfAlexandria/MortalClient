@@ -232,14 +232,16 @@ void PacketSwitch::forward(const std::int8_t* bytes, std::size_t length) const
     InPacket recv{bytes, length};
     // Read the opcode to determine handler responsible.
     auto opcode = static_cast<std::uint16_t>(recv.read_short());
+    std::cout << "  Packet with opcode " << str::to_hex(opcode) << " received"
+              << std::endl;
 
     if (opcode < NUM_HANDLERS) {
-        if (auto& handler = handlers[opcode]) {
+        if (auto& handler = handlers[opcode]; handler) {
             // Handler ok. Packet is passed on.
             try {
                 handler->handle(recv);
             } catch (const PacketError& err) {
-                // Notice about an error.
+                // Log a notice about an error.
                 warn(err.what(), opcode);
             }
         } else {

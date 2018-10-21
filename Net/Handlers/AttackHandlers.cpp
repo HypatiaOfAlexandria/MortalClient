@@ -41,7 +41,7 @@ void AttackHandler::handle(InPacket& recv) const
     attack.attacker = cid;
 
     attack.level = recv.read_byte();
-    attack.skill = (attack.level > 0) ? recv.read_int() : 0;
+    attack.skill = attack.level > 0 ? recv.read_int() : 0;
 
     attack.display = recv.read_byte();
     attack.to_left = recv.read_bool();

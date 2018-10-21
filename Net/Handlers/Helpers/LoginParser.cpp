@@ -81,9 +81,9 @@ CharEntry LoginParser::parse_charentry(InPacket& recv)
         std::int32_t rankmv = recv.read_int();
         std::int32_t curjobrank = recv.read_int();
         std::int32_t jobrankmv = recv.read_int();
-        std::int8_t rankmc = (rankmv > 0) ? '+' : (rankmv < 0) ? '-' : '=';
+        std::int8_t rankmc = rankmv > 0 ? '+' : rankmv < 0 ? '-' : '=';
         std::int8_t jobrankmc
-            = (jobrankmv > 0) ? '+' : (jobrankmv < 0) ? '-' : '=';
+            = jobrankmv > 0 ? '+' : jobrankmv < 0 ? '-' : '=';
 
         stats.rank = std::make_pair(currank, rankmc);
         stats.job_rank = std::make_pair(curjobrank, jobrankmc);
@@ -103,7 +103,7 @@ StatsEntry LoginParser::parse_stats(InPacket& recv)
     recv.read_int();  // face
     recv.read_int();  // hair
 
-    for (std::size_t i = 0; i < 3; ++i) {
+    for (auto i = 0; i < 3; ++i) {
         statsentry.pet_ids.push_back(recv.read_long());
     }
 

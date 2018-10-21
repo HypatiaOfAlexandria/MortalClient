@@ -215,10 +215,10 @@ Cursor::State Slider::send_cursor(Point<std::int16_t> cursor, bool pressed)
         next.set_state(Button::NORMAL);
     }
 
-    if (pressed) {
+    if (pressed && row_height != 0) {
         auto y_offset = static_cast<double>(relative.y() - button_height * 2);
-        auto cursor_row
-            = static_cast<std::int16_t>(std::round(y_offset / row_height));
+        auto cursor_row = math::saturating_cast<std::int16_t>(
+            std::round(y_offset / row_height));
         if (cursor_row < 0) {
             cursor_row = 0;
         } else if (cursor_row > row_max) {

@@ -105,7 +105,7 @@ private:
     bool can_raise(std::int32_t skill_id) const;
     void send_spup(std::uint16_t row);
 
-    Job::Level job_level_by_tab(std::uint16_t tab) const;
+    Job::Level job_level_by_tab(std::uint16_t tab) const noexcept;
     SkillIcon* icon_by_position(Point<std::int16_t> cursor_pos);
 
     enum Buttons : std::uint16_t {

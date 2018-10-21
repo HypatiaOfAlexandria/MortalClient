@@ -88,8 +88,7 @@ void Player::respawn(Point<std::int16_t> pos, bool uw)
 
 void Player::send_action(KeyAction::Id action, bool down)
 {
-    const PlayerState* pst = get_state(state);
-    if (pst) {
+    if (const PlayerState* pst = get_state(state); pst) {
         pst->send_action(*this, action, down);
     }
     keys_down[action] = down;
@@ -114,7 +113,8 @@ void Player::recalc_stats(bool equip_changed)
     /* // More efficient alternative to `skillbook.collect_passives()` when the
        // order of applying passives doesn't matter. IMO it shouldn't matter,
        // but in the interest of being compliant with standard Maplestory
-       // behavior, we retain the order.
+       // behavior, we retain the order and do _not_ use this more efficient
+       // version.
     for (const auto& [skill_id, entry] : skillbook.get_entries()) {
         if (SkillData::get(skill_id).is_passive()) {
             passive_buffs.apply_buff(stats, skill_id, entry.level);
@@ -426,6 +426,11 @@ void Player::change_job(std::uint16_t job_id)
 {
     show_effect_id(CharEffect::JOBCHANGE);
     stats.change_job(job_id);
+}
+
+void Player::set_stats(const StatsEntry& entry) noexcept
+{
+    stats = entry;
 }
 
 void Player::set_seat(nullable_ptr<const Seat> seat)

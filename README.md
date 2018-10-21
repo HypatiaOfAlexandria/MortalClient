@@ -1,8 +1,8 @@
 # [LibreMaple](https://libremaple.org/) Client: a fork/continuation of JourneyClient
 
-[![License](https://img.shields.io/badge/license-AGPL%20v3.0%2B-brightgreen.svg)](https://www.gnu.org/licenses/agpl-3.0.html)
+[![License](https://img.shields.io/badge/license-AGPL%20v3%2B-brightgreen.svg)](https://www.gnu.org/licenses/agpl-3.0.html)
 [![C++ standard](https://img.shields.io/badge/C%2B%2B-17-blue.svg)](https://en.wikipedia.org/wiki/C%2B%2B17)
-[![clang++ version](https://img.shields.io/badge/clang%2B%2B-6.0.1+-dd66aa.svg)](http://clang.llvm.org/)
+[![clang++ version](https://img.shields.io/badge/clang%2B%2B-7.0.0+-dd66aa.svg)](http://clang.llvm.org/)
 [![Maplestory version](https://img.shields.io/badge/Maplestory-GMS_v83-orange.svg)](https://en.wikipedia.org/wiki/MapleStory)
 
 ## JourneyClient
@@ -36,9 +36,9 @@ The client is currently compatible with GMS version 83 servers. For the UI file
 
 #### Dependencies
 
-* [clang](http://clang.llvm.org/) (version 6+)
-* [lld](https://lld.llvm.org/) (version 6+)
-* [llvm](https://llvm.org/) (version 6+, including any "tools" or "runtime")
+* [clang](http://clang.llvm.org/) (version 7+)
+* [lld](https://lld.llvm.org/) (version 7+)
+* [llvm](https://llvm.org/) (version 7+, including any "tools" or "runtime")
 * [cmake](https://cmake.org/) (version 3.10+)
 * [make](https://www.gnu.org/software/make/) (GNU Make version 4+)
 * [git](https://git-scm.com/)
@@ -109,7 +109,7 @@ $ git clone https://github.com/lz4/lz4.git
 # Again, the following command can be replaced by just going to
 # https://www.boost.org/users/download/
 # and downloading the latest version of Boost.
-$ wget https://dl.bintray.com/boostorg/release/1.67.0/source/boost_1_67_0.tar.gz
+$ wget https://dl.bintray.com/boostorg/release/1.68.0/source/boost_1_68_0.tar.gz
 $ tar xf boost*
 $ rm boost*.tar.gz
 $ mv boost*/ boost/
@@ -217,7 +217,7 @@ $ git clone https://github.com/lz4/lz4.git
 # Again, the following command can be replaced by just going to
 # https://www.boost.org/users/download/
 # and downloading the latest version of Boost.
-$ wget https://dl.bintray.com/boostorg/release/1.67.0/source/boost_1_67_0.tar.gz
+$ wget https://dl.bintray.com/boostorg/release/1.68.0/source/boost_1_68_0.tar.gz
 $ tar xf boost*
 $ rm boost*.tar.gz
 $ mv boost*/ boost/
@@ -289,7 +289,7 @@ $ install_name_tool -change /usr/local/lib/liblz4.1.dylib ./liblz4.1.8.2.dylib J
 * [Visual Studio 2017](https://www.visualstudio.com/downloads/) (the Community Edition works just fine, make sure to enable Visual C++ development when installing)
 * [.NET Framework 4](https://www.microsoft.com/en-us/download/details.aspx?id=17718) (hopefully already installed, but just in case)
 * [Visual C++ Redistributable for Visual Studio 2017](https://go.microsoft.com/fwlink/?LinkId=746572) (probably already installed, but again, just in case)
-* [clang for windows](https://releases.llvm.org/download.html) (version 6+; download and install **Pre-Built Binaries:** -> Clang for Windows (64-bit))
+* [clang for windows](https://releases.llvm.org/download.html) (version 7+; download and install **Pre-Built Binaries:** -> Clang for Windows (64-bit))
 * [cmake](https://cmake.org/download/) (latest version, 3.11.X as of this writing)
 * [git](https://git-scm.com/)
 * [7-Zip](https://www.7-zip.org/)
@@ -341,7 +341,7 @@ Use 7-Zip to extract the contents of the LZ4 ZIP file into a directory called
 
 Navigate to
 [https://www.boost.org/users/download/](https://www.boost.org/users/download/)
-and download the latest version of Boost for Windows (called `boost_1_67_0.7z`
+and download the latest version of Boost for Windows (called `boost_1_68_0.7z`
 as of this writing).
 
 Use 7-Zip to extract the contents of the Boost 7z file into a directory called
@@ -397,11 +397,13 @@ where you cloned all of the repos and extracted the ZIP files:
 ## Compiler
 
 LibreMaple is built against the latest version of
-[Clang](http://clang.llvm.org/) (6.0.X as of this writing), again for
-cross-platform considerations and efficiency. [The GCC](https://gcc.gnu.org/)
-(version 8.1.X as of this writing) is another excellent choice, especially for
-those on GNU+Linux operating systems (or other OSs which default to GCC), but
-GCC is **not** officially supported by LibreMaple.
+[Clang](http://clang.llvm.org/) trunk, built from
+[the git mirror](https://github.com/llvm-project/llvm-project-20170507/)
+(nominally 8.0.0 as of this writing), again for cross-platform considerations
+and efficiency. [The GCC](https://gcc.gnu.org/) (version 8.2.X as of this
+writing) is another excellent choice, especially for those on GNU+Linux
+operating systems (or other OSs which default to GCC), but GCC is **not**
+officially supported by LibreMaple.
 
 That being said, don't be shy to file issues involving GCC or to make PRs to
 improve ease of use/compatibility with it.

@@ -218,8 +218,8 @@ Button::State UIItemInventory::button_pressed(std::uint16_t button_id)
 
 void UIItemInventory::double_click(Point<std::int16_t> cursor_pos)
 {
-    std::int16_t slot = slot_by_position(cursor_pos - position);
-    if (icons.count(slot) && is_visible(slot)) {
+    if (std::int16_t slot = slot_by_position(cursor_pos - position);
+        icons.count(slot) && is_visible(slot)) {
         if (std::int32_t item_id = inventory.get_item_id(tab, slot); item_id) {
             switch (tab) {
             case InventoryType::EQUIP:
@@ -242,12 +242,11 @@ void UIItemInventory::double_click(Point<std::int16_t> cursor_pos)
 void UIItemInventory::send_icon(const Icon& icon,
                                 Point<std::int16_t> cursor_pos)
 {
-    std::int16_t slot = slot_by_position(cursor_pos - position);
-    if (slot > 0) {
-        std::int32_t item_id = inventory.get_item_id(tab, slot);
+    if (auto slot = slot_by_position(cursor_pos - position); slot > 0) {
         Equipslot::Id eqslot;
         bool equip;
-        if (item_id && tab == InventoryType::EQUIP) {
+        if (std::int32_t item_id = inventory.get_item_id(tab, slot);
+            item_id && tab == InventoryType::EQUIP) {
             eqslot = inventory.find_equip_slot(item_id);
             equip = true;
         } else {
@@ -267,21 +266,21 @@ Cursor::State UIItemInventory::send_cursor(bool pressed,
         return dstate;
     }
 
-    Point<std::int16_t> cursor_relative = cursor_pos - position;
+    auto cursor_relative = cursor_pos - position;
     if (slider.is_enabled()) {
-        Cursor::State sstate = slider.send_cursor(cursor_relative, pressed);
-        if (sstate != Cursor::IDLE) {
+        if (Cursor::State sstate
+            = slider.send_cursor(cursor_relative, pressed);
+            sstate != Cursor::IDLE) {
             clear_tooltip();
             return sstate;
         }
     }
 
     std::int16_t slot = slot_by_position(cursor_relative);
-    Icon* icon = get_icon(slot);
-    if (icon && is_visible(slot)) {
+    if (Icon* icon = get_icon(slot); icon && is_visible(slot)) {
         if (pressed) {
-            Point<std::int16_t> slotpos = get_slot_pos(slot);
-            icon->start_drag(cursor_relative - slotpos);
+            auto slot_pos = get_slot_pos(slot);
+            icon->start_drag(cursor_relative - slot_pos);
             UI::get().drag_icon(icon);
 
             clear_tooltip();
@@ -440,6 +439,7 @@ Point<std::int16_t> UIItemInventory::get_tab_pos(InventoryType::Id tb) const
 }
 
 std::uint16_t UIItemInventory::button_by_tab(InventoryType::Id tb) const
+    noexcept
 {
     switch (tb) {
     case InventoryType::EQUIP:
@@ -455,7 +455,7 @@ std::uint16_t UIItemInventory::button_by_tab(InventoryType::Id tb) const
     }
 }
 
-Icon* UIItemInventory::get_icon(std::int16_t slot)
+Icon* UIItemInventory::get_icon(std::int16_t slot) noexcept
 {
     if (auto iter = icons.find(slot); iter != icons.end()) {
         return iter->second.get();

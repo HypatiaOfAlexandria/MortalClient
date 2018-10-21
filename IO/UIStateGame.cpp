@@ -53,8 +53,7 @@ UIStateGame::UIStateGame()
 void UIStateGame::draw(float inter, Point<std::int16_t> cursor) const
 {
     for (const auto& type : element_order) {
-        auto& element = elements[type];
-        if (element && element->is_active()) {
+        if (auto& element = elements[type]; element && element->is_active()) {
             element->draw(inter);
         }
     }
@@ -80,7 +79,7 @@ void UIStateGame::update()
 
 void UIStateGame::drop_icon(const Icon& icon, Point<std::int16_t> pos)
 {
-    if (UIElement* front = get_front(pos)) {
+    if (UIElement* front = get_front(pos); front) {
         front->send_icon(icon, pos);
     } else {
         icon.drop_on_stage();
@@ -89,7 +88,7 @@ void UIStateGame::drop_icon(const Icon& icon, Point<std::int16_t> pos)
 
 void UIStateGame::double_click(Point<std::int16_t> pos)
 {
-    if (UIElement* front = get_front(pos)) {
+    if (UIElement* front = get_front(pos); front) {
         front->double_click(pos);
     }
 }

@@ -27,6 +27,7 @@ Maplestat::Id Maplestat::by_id(std::size_t id)
     if (id >= LENGTH) {
         Console::get().print("Invalid Maplestat id: " + std::to_string(id));
     }
+
     return static_cast<Id>(id);
 }
 

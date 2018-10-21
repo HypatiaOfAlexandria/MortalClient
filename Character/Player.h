@@ -134,19 +134,22 @@ public:
     //! Return a pointer to the ladder the player is on.
     nullable_ptr<const Ladder> get_ladder() const;
 
-    //! Change players position to the seat's position and stance to Char::SIT.
+    //! Set player's stats.
+    void set_stats(const StatsEntry& entry) noexcept;
+    //! Change player's position to the seat's position and stance to
+    //! Char::SIT.
     void set_seat(nullable_ptr<const Seat> seat);
-    //! Change players xpos to the ladder x and change stance to Char::LADDER
+    //! Change player's x-pos to the ladder x and change stance to Char::LADDER
     //! or Char::ROPE.
     void set_ladder(nullable_ptr<const Ladder> ladder);
 
     //! Obtain a reference to the player's stats.
     CharStats& get_stats();
-    //! Obtain a reference to the player's stats.
+    //! Obtain a const reference to the player's stats.
     const CharStats& get_stats() const;
     //! Obtain a reference to the player's inventory.
     Inventory& get_inventory();
-    //! Obtain a reference to the player's inventory.
+    //! Obtain a const reference to the player's inventory.
     const Inventory& get_inventory() const;
     //! Obtain a reference to the player's skills.
     Skillbook& get_skills();

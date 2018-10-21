@@ -89,10 +89,10 @@ private:
     bool is_visible(std::int16_t slot) const;
     bool is_not_visible(std::int16_t slot) const;
     std::int16_t slot_by_position(Point<std::int16_t> cursor_pos) const;
-    std::uint16_t button_by_tab(InventoryType::Id tab) const;
+    std::uint16_t button_by_tab(InventoryType::Id tab) const noexcept;
     Point<std::int16_t> get_slot_pos(std::int16_t slot) const;
     Point<std::int16_t> get_tab_pos(InventoryType::Id tab) const;
-    Icon* get_icon(std::int16_t slot);
+    Icon* get_icon(std::int16_t slot) noexcept;
 
     enum Buttons {
         BT_TAB_EQUIP,
