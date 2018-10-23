@@ -1,4 +1,4 @@
-# [LibreMaple](https://libremaple.org/) Client: a fork/continuation of JourneyClient
+# MortalClient: a continuation of a continuation of JourneyClient
 
 [![License](https://img.shields.io/badge/license-AGPL%20v3%2B-brightgreen.svg)](https://www.gnu.org/licenses/agpl-3.0.html)
 [![C++ standard](https://img.shields.io/badge/C%2B%2B-17-blue.svg)](https://en.wikipedia.org/wiki/C%2B%2B17)
@@ -12,23 +12,27 @@ JourneyClient is a custom, made-from-scratch game client for
 JourneyClient is written in [C++](https://en.wikipedia.org/wiki/C%2B%2B) and
 was created by Daniel Allendorf in 2015.
 
-The [LibreMaple](https://libremaple.org/) project aims to make a version of
-Maplestory that is
+The LibreMaple project aimed to make a version of Maplestory that is
 [100% free and open](https://www.fsf.org/about/what-is-free-software) on both
 the server and client sides, to preserve the freedom of its users and enable
 creativity and collaboration around the game. As such, the LibreMaple project
-takes the JourneyClient as a starting point.
+took the JourneyClient as a starting point.
 
-LibreMaple aims to make the client
+LibreMaple aimed also to make the client
 [cross-platform](https://en.wikipedia.org/wiki/Cross-platform)
 ([GNU+Linux](https://en.wikipedia.org/wiki/Linux)/[macOS](https://en.wikipedia.org/wiki/MacOS)/[Windows NT](https://en.wikipedia.org/wiki/Windows_NT)/[FreeBSD](https://en.wikipedia.org/wiki/FreeBSD)/etc.)
-as well, so decisions are made with a cross-platform mindset as well as a free
-software one.
+as well, so decisions were and are made with a cross-platform mindset as well
+as a free software one.
+
+MortalClient continues the work of LibreMaple, taking it in a further direction
+of rectifying the game's flaws for our future selves and future generations.
 
 ## Supported versions
 
-The client is currently compatible with GMS version 83 servers. For the UI file
-(UI.nx), one from GMS version 154+ should be used.
+The client is intended to be quasi-conformant with GMS version 83. For the UI
+file (UI.nx), one from GMS version 154+ should be used.
+
+[The corresponding server code is called MortalMS.](https://github.com/HypatiaOfAlexandria/MortalMS)
 
 ## How to compile/install
 
@@ -81,8 +85,8 @@ etc.).
 #### Instructions
 
 ```bash
-$ git clone https://github.com/Libre-Maple/LibreMaple-Client.git
-$ git clone https://github.com/NoLifeDev/NoLifeNx.git nlnx
+$ git clone https://github.com/HypatiaOfAlexandria/MortalClient.git
+$ git clone https://github.com/HypatiaOfAlexandria/NoLifeNx.git nlnx
 
 # The next command is probably best replaced by navigating to
 # https://sourceforge.net/projects/asio/files/latest/download
@@ -142,7 +146,7 @@ $ cd lz4
 $ make
 $ cd ..
 
-$ cd LibreMaple-Client
+$ cd MortalClient
 $ mkdir build
 $ cd build
 # Build type may also be `Release`, `RelWithDebInfo`, or `MinSizeRel`.
@@ -158,7 +162,7 @@ $ strip JourneyClient
 ```
 
 If all this is successful, you should have the executable in your current
-directory (`LibreMaple-Client/build`).
+directory (`MortalClient/build`).
 
 ### macOS
 
@@ -191,8 +195,8 @@ directory (`LibreMaple-Client/build`).
 #### Instructions
 
 ```bash
-$ git clone https://github.com/Libre-Maple/LibreMaple-Client.git
-$ git clone https://github.com/NoLifeDev/NoLifeNx.git nlnx
+$ git clone https://github.com/HypatiaOfAlexandria/MortalClient.git
+$ git clone https://github.com/HypatiaOfAlexandria/NoLifeNx.git nlnx
 
 # The next command is probably best replaced by navigating to
 # https://sourceforge.net/projects/asio/files/latest/download
@@ -244,7 +248,7 @@ $ cd lz4
 $ make
 $ cd ..
 
-$ cd LibreMaple-Client
+$ cd MortalClient
 $ mkdir build
 $ cd build
 # Build type may also be `Release`, `RelWithDebInfo`, or `MinSizeRel`.
@@ -260,7 +264,7 @@ $ strip JourneyClient
 ```
 
 If all this is successful, you should have the executable in your current
-directory (`LibreMaple-Client/build`). However, it probably will not run right
+directory (`MortalClient/build`). However, it probably will not run right
 away, since the paths that the executable looks for dylibs on will be wrong.
 
 In order to fix this, gather up the following files, copying them to wherever
@@ -297,8 +301,8 @@ $ install_name_tool -change /usr/local/lib/liblz4.1.dylib ./liblz4.1.8.2.dylib J
 #### Instructions
 
 ```bat
-$ git clone https://github.com/Libre-Maple/LibreMaple-Client.git
-$ git clone https://github.com/NoLifeDev/NoLifeNx.git nlnx
+$ git clone https://github.com/HypatiaOfAlexandria/MortalClient.git
+$ git clone https://github.com/HypatiaOfAlexandria/NoLifeNx.git nlnx
 
 $ git clone https://github.com/ubawurinna/freetype-windows-binaries.git freetype
 
@@ -355,7 +359,7 @@ tweak `CMakeLists.txt` yourself:
 $ SET CC="C:\Program Files\LLVM\bin\clang.exe"
 $ SET CXX="C:\Program Files\LLVM\bin\clang++.exe"
 
-$ cd LibreMaple-Client
+$ cd MortalClient
 $ md build
 $ cd build
 ```
@@ -380,8 +384,8 @@ $ cmake --build . -- /v:d /property:Configuration=Release /property:Platform=x64
 ```
 
 If all this is successful, you should have the executable (`JourneyClient.exe`)
-in `LibreMaple-Client\build\Debug` for debug builds, or
-`LibreMaple-Client\build\Release` for release build types. However, it
+in `MortalClient\build\Debug` for debug builds, or
+`MortalClient\build\Release` for release build types. However, it
 probably will not run right away, since the paths that the executable looks
 for DLLs on will be wrong.
 
@@ -396,14 +400,14 @@ where you cloned all of the repos and extracted the ZIP files:
 
 ## Compiler
 
-LibreMaple is built against the latest version of
+MortalClient is built against the latest version of
 [Clang](http://clang.llvm.org/) trunk, built from
 [the git mirror](https://github.com/llvm-project/llvm-project-20170507/)
 (nominally 8.0.0 as of this writing), again for cross-platform considerations
 and efficiency. [The GCC](https://gcc.gnu.org/) (version 8.2.X as of this
 writing) is another excellent choice, especially for those on GNU+Linux
 operating systems (or other OSs which default to GCC), but GCC is **not**
-officially supported by LibreMaple.
+officially supported by MortalClient.
 
 That being said, don't be shy to file issues involving GCC or to make PRs to
 improve ease of use/compatibility with it.
@@ -412,7 +416,7 @@ improve ease of use/compatibility with it.
 
 JourneyClient was originally developed under
 [the C++14 standard](https://en.wikipedia.org/wiki/C%2B%2B14). However,
-**LibreMaple strictly uses**
+**MortalClient strictly uses**
 **[the C++17 standard](https://en.wikipedia.org/wiki/C%2B%2B17) and makes use**
 **of C++17 features**.
 
@@ -431,7 +435,7 @@ The following options are available:
 * `JOURNEY_USE_XXHASH` : Use xxhash for file check (additional dependency)
 * `JOURNEY_USE_ASIO`   : Use Asio for networking (additional dependency)
 
-LibreMaple uses crypto (`JOURNEY_USE_CRYPTO`), and also uses ASIO
+MortalClient uses crypto (`JOURNEY_USE_CRYPTO`), and also uses ASIO
 (`JOURNEY_USE_ASIO`) to maintain cross-platform compatibility.
 
 ## Dependencies
@@ -454,8 +458,8 @@ LibreMaple uses crypto (`JOURNEY_USE_CRYPTO`), and also uses ASIO
 
 [![GNU AGPL v3+](https://www.gnu.org/graphics/agplv3-155x51.png)](https://www.gnu.org/licenses/agpl-3.0.en.html)
 
-All LibreMaple/JourneyClient code is © 2015-2016 Daniel Allendorf, 2018-2019
-LibreMaple Team, licensed under the
+All MortalClient/LibreMaple/JourneyClient code is © 2015-2016 Daniel Allendorf,
+2018-2019 LibreMaple Team, licensed under the
 [GNU Affero General Public License version 3 or higher](https://www.gnu.org/licenses/agpl-3.0.en.html)
 (GNU AGPL). See "LICENSE" for the full text.
 
