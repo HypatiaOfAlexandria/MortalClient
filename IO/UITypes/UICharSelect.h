@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #pragma once
 #include "../../Character/Look/CharLook.h"
@@ -117,13 +117,13 @@ private:
             inner.draw(parentpos);
         }
 
-        void change_text(std::string_view text)
+        void change_text(const utf8_string& text)
         {
-            inner.change_text(std::string{text});
-            l.change_text(std::string{text});
-            r.change_text(std::string{text});
-            t.change_text(std::string{text});
-            b.change_text(std::string{text});
+            inner.change_text(utf8_string{text});
+            l.change_text(utf8_string{text});
+            r.change_text(utf8_string{text});
+            t.change_text(utf8_string{text});
+            b.change_text(utf8_string{text});
         }
     };
     OutlinedText name_label;

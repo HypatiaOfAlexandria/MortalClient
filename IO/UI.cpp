@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #include "UI.h"
 
@@ -136,7 +136,7 @@ void UI::send_key(std::int32_t keycode, bool pressed)
                 switch (action) {
                 case KeyAction::COPY:
                     Window::get().set_clipboard(
-                        focused_text_field->get_text());
+                        focused_text_field->get_text().data());
                     break;
                 case KeyAction::PASTE:
                     focused_text_field->add_string(

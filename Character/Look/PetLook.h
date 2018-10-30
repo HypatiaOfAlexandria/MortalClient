@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #pragma once
 #include "../../Gameplay/Physics/Physics.h"
@@ -21,6 +21,7 @@
 #include "../../Graphics/Text.h"
 #include "../../Template/EnumMap.h"
 #include "../../Template/Point.h"
+#include "tinyutf8.h"
 
 #include <cstdint>
 #include <map>
@@ -50,7 +51,7 @@ public:
     }
 
     PetLook(std::int32_t iid,
-            std::string&& name,
+            utf8_string&& name,
             std::int32_t uniqueid,
             Point<std::int16_t> pos,
             std::uint8_t stance,
@@ -69,7 +70,7 @@ public:
 
 private:
     std::int32_t item_id;
-    std::string name;
+    utf8_string name;
     std::int32_t unique_id;
     Stance stance;
     bool flip;

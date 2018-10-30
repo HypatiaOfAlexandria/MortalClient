@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #include "UINpcTalk.h"
 
@@ -59,7 +59,7 @@ void UINpcTalk::draw(float inter) const
     name.draw(position + Point<std::int16_t>(80, 99));
     text.draw(position
               + Point<std::int16_t>(
-                    156, 16 + ((vtile * fill.height() - text.height()) / 2)));
+                  156, 16 + ((vtile * fill.height() - text.height()) / 2)));
 }
 
 Button::State UINpcTalk::button_pressed(std::uint16_t buttonid)
@@ -86,14 +86,15 @@ void UINpcTalk::change_text(std::int32_t npc_id,
         name = {Text::A11M,
                 Text::CENTER,
                 Text::WHITE,
-                nl::nx::string["Npc.img"][str_id]["name"]};
+                utf8_string{
+                    nl::nx::string["Npc.img"][str_id]["name"].get_string()}};
 
         str_id.insert(0, 7 - str_id.length(), '0');
         str_id += ".img";
         speaker = nl::nx::npc[str_id]["stand"]["0"];
     } else {
         speaker = {};
-        name.change_text("");
+        name.change_text(u8"");
     }
 
     vtile = 8;

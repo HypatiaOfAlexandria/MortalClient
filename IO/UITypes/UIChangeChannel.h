@@ -13,13 +13,14 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #pragma once
 #include "../../Graphics/Texture.h"
 #include "../../Template/BoolPair.h"
 #include "../UIDragElement.h"
 #include "boost/container/static_vector.hpp"
+#include "tinyutf8.h"
 
 #include <optional>
 

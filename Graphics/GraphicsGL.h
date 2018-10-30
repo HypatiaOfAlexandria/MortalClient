@@ -13,13 +13,14 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #pragma once
 #include "../Constants.h"
 #include "../Error.h"
 #include "../Template/Rectangle.h"
 #include "../Template/Singleton.h"
+#include "../Template/nullable_ptr.h"
 #include "../Util/QuadTree.h"
 #include "DrawArgument.h"
 #include "GL/glew.h"
@@ -38,7 +39,7 @@ namespace jrc
 class GraphicsGL : public Singleton<GraphicsGL>
 {
 public:
-    GraphicsGL();
+    GraphicsGL() noexcept;
 
     //! Initialise all resources.
     Error init();
@@ -57,14 +58,14 @@ public:
               float angle);
 
     //! Create a layout for the text with the parameters specified.
-    Text::Layout create_layout(std::string_view text,
+    Text::Layout create_layout(const utf8_string& text,
                                Text::Font font,
                                Text::Alignment alignment,
                                std::int16_t max_width,
                                bool formatted);
     //! Draw a text with the given parameters.
     void draw_text(const DrawArgument& args,
-                   std::string_view text,
+                   const utf8_string& text,
                    const Text::Layout& layout,
                    Text::Font font,
                    Text::Color color,
@@ -110,22 +111,16 @@ private:
         GLshort t;
         GLshort b;
 
-        Offset(GLshort x, GLshort y, GLshort w, GLshort h)
+        Offset(GLshort x, GLshort y, GLshort w, GLshort h) noexcept
+            : l{x}, r{x + w}, t{y}, b{y + h}
         {
-            l = x;
-            r = x + w;
-            t = y;
-            b = y + h;
         }
 
-        Offset()
+        Offset() noexcept : l{0}, r{0}, t{0}, b{0}
         {
-            l = 0;
-            r = 0;
-            t = 0;
-            b = 0;
         }
     };
+
     //! Add a bitmap to the available resources.
     const Offset& get_offset(const nl::bitmap& bmp);
 
@@ -135,28 +130,21 @@ private:
         GLshort t;
         GLshort b;
 
-        Leftover(GLshort x, GLshort y, GLshort w, GLshort h)
+        Leftover(GLshort x, GLshort y, GLshort w, GLshort h) noexcept
+            : l{x}, r{x + w}, t{y}, b{y + h}
         {
-            l = x;
-            r = x + w;
-            t = y;
-            b = y + h;
         }
 
-        Leftover()
+        Leftover() noexcept : l{0}, r{0}, t{0}, b{0}
         {
-            l = 0;
-            r = 0;
-            t = 0;
-            b = 0;
         }
 
-        GLshort width() const
+        GLshort width() const noexcept
         {
             return r - l;
         }
 
-        GLshort height() const
+        GLshort height() const noexcept
         {
             return b - t;
         }
@@ -215,42 +203,128 @@ private:
             GLshort bl;
             GLshort bt;
             Offset offset;
+
+            Char(GLshort ax_,
+                 GLshort ay_,
+                 GLshort bw_,
+                 GLshort bh_,
+                 GLshort bl_,
+                 GLshort bt_,
+                 Offset offset_) noexcept
+                : ax{ax_},
+                  ay{ay_},
+                  bw{bw_},
+                  bh{bh_},
+                  bl{bl_},
+                  bt{bt_},
+                  offset{offset_}
+            {
+            }
         };
 
-        GLshort width;
+        FT_Face face;
+        // GLshort width;
         GLshort height;
-        Char chars[128];
 
-        Font(GLshort w, GLshort h)
+        Font(FT_Face face_, GLshort h = 0) noexcept : face{face_}, height{h}
         {
-            width = w;
+        }
+
+        Font() noexcept : face{nullptr}, height{0}
+        {
+        }
+
+        void set_height(GLshort h) noexcept
+        {
             height = h;
         }
 
-        Font()
+        std::int16_t line_space() const noexcept
         {
-            width = 0;
-            height = 0;
+            return static_cast<std::int16_t>(static_cast<float>(height)
+                                             * 1.35f)
+                   + static_cast<std::int16_t>(1);
         }
 
-        std::int16_t line_space() const
+        void add_char(char32_t c,
+                      GLshort ax,
+                      GLshort ay,
+                      GLshort bw,
+                      GLshort bh,
+                      GLshort bl,
+                      GLshort bt,
+                      Offset offset) noexcept
         {
-            return static_cast<std::int16_t>(height * 1.35 + 1);
+            chars.try_emplace(c, ax, ay, bw, bh, bl, bt, offset);
         }
+
+        nullable_ptr<Char> get_or_insert_char(char32_t c) noexcept
+        {
+            if (auto iter = chars.find(c); iter != chars.end()) {
+                return &iter->second;
+            }
+
+            if (FT_Load_Char(face, c, FT_LOAD_RENDER)) {
+                return {};
+            }
+
+            const auto g = face->glyph;
+
+            GLshort ax = static_cast<GLshort>(g->advance.x >> 6);
+            GLshort ay = static_cast<GLshort>(g->advance.y >> 6);
+            GLshort l = static_cast<GLshort>(g->bitmap_left);
+            GLshort t = static_cast<GLshort>(g->bitmap_top);
+            GLshort w = static_cast<GLshort>(g->bitmap.width);
+            GLshort h = static_cast<GLshort>(g->bitmap.rows);
+
+            auto& ggl = GraphicsGL::get();
+
+            if (ggl.font_border.x() + w > ATLASW) {
+                ggl.font_border.set_x(0);
+                ggl.font_border.shift_y(ggl.font_y_max);
+            }
+
+            if (h > ggl.font_y_max) {
+                ggl.font_y_max = h;
+            }
+            if (h > height) {
+                height = h;
+            }
+
+            glTexSubImage2D(GL_TEXTURE_2D,
+                            0,
+                            ggl.font_border.x(),
+                            ggl.font_border.y(),
+                            w,
+                            h,
+                            GL_RED,
+                            GL_UNSIGNED_BYTE,
+                            g->bitmap.buffer);
+
+            Offset offset{ggl.font_border.x(), ggl.font_border.y(), w, h};
+            auto [iter, _] = chars.try_emplace(c, ax, ay, w, h, l, t, offset);
+
+            ggl.font_border.shift_x(w);
+
+            return &iter->second;
+        }
+
+    private:
+        std::unordered_map<char32_t, Char> chars;
     };
 
     class LayoutBuilder
     {
     public:
-        LayoutBuilder(const Font& font,
+        LayoutBuilder(Font& font,
                       Text::Alignment alignment,
                       std::int16_t maxwidth,
-                      bool formatted);
+                      bool formatted) noexcept;
 
-        std::string_view::size_type add(std::string_view text,
-                                        std::string_view::size_type prev,
-                                        std::string_view::size_type first,
-                                        std::string_view::size_type last);
+        utf8_string::size_type add(const utf8_string& text,
+                                   utf8_string::size_type prev,
+                                   utf8_string::size_type first,
+                                   utf8_string::size_type last);
         Text::Layout finish(std::size_t first, std::size_t last);
 
     private:
@@ -260,7 +334,7 @@ private:
                       Text::Color color);
         void add_line();
 
-        const Font& font;
+        Font& font;
 
         Text::Alignment alignment;
         Text::Font font_id;
@@ -280,9 +354,9 @@ private:
 
     static Rectangle<std::int16_t> screen;
 
-    static const GLshort ATLASW = 8192;
-    static const GLshort ATLASH = 8192;
-    static const GLshort MINLOSIZE = 32;
+    static constexpr const GLshort ATLASW = 8192;
+    static constexpr const GLshort ATLASH = 8192;
+    static constexpr const GLshort MINLOSIZE = 32;
 
     bool locked;
 

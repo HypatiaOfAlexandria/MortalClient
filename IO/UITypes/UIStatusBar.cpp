@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #include "UIStatusBar.h"
 
@@ -131,8 +131,9 @@ void UIStatusbar::update()
     hpbar.update(get_hp_percent());
     mpbar.update(get_mp_percent());
 
-    namelabel.change_text(std::string{stats.get_name()});
-    joblabel.change_text(std::string{stats.get_job_name()});
+    namelabel.change_text(utf8_string{stats.get_name()});
+    const auto job_name = stats.get_job_name();
+    joblabel.change_text(utf8_string{job_name.data(), job_name.length()});
 
     for (auto iter : message_cooldowns) {
         iter.second -= Constants::TIMESTEP;
@@ -201,7 +202,7 @@ Cursor::State UIStatusbar::send_cursor(bool pressed,
     }
 }
 
-void UIStatusbar::send_chatline(std::string&& line, UIChatbar::LineType type)
+void UIStatusbar::send_chatline(utf8_string&& line, UIChatbar::LineType type)
 {
     chatbar.send_line(std::move(line), type);
 }

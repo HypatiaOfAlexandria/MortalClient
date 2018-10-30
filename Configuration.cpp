@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #include "Configuration.h"
 
@@ -29,7 +29,7 @@
 
 namespace jrc
 {
-Configuration::Configuration() noexcept
+Configuration::Configuration() noexcept : characters{6}
 {
     try {
         load();
@@ -427,7 +427,7 @@ void Configuration::load() noexcept(false)
         character_tables) {
         for (const auto& character_table : *character_tables) {
             Character character;
-            std::string name;
+            utf8_string name;
             if (auto name_ = character_table->get_as<std::string>("name");
                 name_) {
                 name = *name_;
@@ -454,7 +454,7 @@ void Configuration::load() noexcept(false)
                         str::concat("No valid value "
                                     "\"settings.toml:character.game_settings."
                                     "whispers\" found for \"",
-                                    name,
+                                    std::string_view{name.data()},
                                     "\"; using default."));
                 }
 
@@ -473,7 +473,7 @@ void Configuration::load() noexcept(false)
                         str::concat("No valid value "
                                     "\"settings.toml:character.game_settings."
                                     "friend_invites\" found for \"",
-                                    name,
+                                    std::string_view{name.data()},
                                     "\"; using default."));
                 }
 
@@ -492,7 +492,7 @@ void Configuration::load() noexcept(false)
                         str::concat("No valid value "
                                     "\"settings.toml:character.game_settings."
                                     "chat_invites\" found for \"",
-                                    name,
+                                    std::string_view{name.data()},
                                     "\"; using default."));
                 }
 
@@ -511,7 +511,7 @@ void Configuration::load() noexcept(false)
                         str::concat("No valid value "
                                     "\"settings.toml:character.game_settings."
                                     "trade_requests\" found for \"",
-                                    name,
+                                    std::string_view{name.data()},
                                     "\"; using default."));
                 }
 
@@ -530,7 +530,7 @@ void Configuration::load() noexcept(false)
                         str::concat("No valid value "
                                     "\"settings.toml:character.game_settings."
                                     "party_invites\" found for \"",
-                                    name,
+                                    std::string_view{name.data()},
                                     "\"; using default."));
                 }
 
@@ -549,7 +549,7 @@ void Configuration::load() noexcept(false)
                         str::concat("No valid value "
                                     "\"settings.toml:character.game_settings."
                                     "sidekick_invites\" found for \"",
-                                    name,
+                                    std::string_view{name.data()},
                                     "\"; using default."));
                 }
 
@@ -568,7 +568,7 @@ void Configuration::load() noexcept(false)
                         str::concat("No valid value "
                                     "\"settings.toml:character.game_settings."
                                     "expedition_invites\" found for \"",
-                                    name,
+                                    std::string_view{name.data()},
                                     "\"; using default."));
                 }
 
@@ -587,7 +587,7 @@ void Configuration::load() noexcept(false)
                         str::concat("No valid value "
                                     "\"settings.toml:character.game_settings."
                                     "guild_chat\" found for \"",
-                                    name,
+                                    std::string_view{name.data()},
                                     "\"; using default."));
                 }
 
@@ -606,7 +606,7 @@ void Configuration::load() noexcept(false)
                         str::concat("No valid value "
                                     "\"settings.toml:character.game_settings."
                                     "guild_invites\" found for \"",
-                                    name,
+                                    std::string_view{name.data()},
                                     "\"; using default."));
                 }
 
@@ -625,7 +625,7 @@ void Configuration::load() noexcept(false)
                         str::concat("No valid value "
                                     "\"settings.toml:character.game_settings."
                                     "alliance_chat\" found for \"",
-                                    name,
+                                    std::string_view{name.data()},
                                     "\"; using default."));
                 }
 
@@ -644,7 +644,7 @@ void Configuration::load() noexcept(false)
                         str::concat("No valid value "
                                     "\"settings.toml:character.game_settings."
                                     "alliance_invites\" found for \"",
-                                    name,
+                                    std::string_view{name.data()},
                                     "\"; using default."));
                 }
 
@@ -663,7 +663,7 @@ void Configuration::load() noexcept(false)
                         str::concat("No valid value "
                                     "\"settings.toml:character.game_settings."
                                     "family_invites\" found for \"",
-                                    name,
+                                    std::string_view{name.data()},
                                     "\"; using default."));
                 }
 
@@ -681,14 +681,14 @@ void Configuration::load() noexcept(false)
                         str::concat("No valid value "
                                     "\"settings.toml:character.game_settings."
                                     "follow\" found for \"",
-                                    name,
+                                    std::string_view{name.data()},
                                     "\"; using default."));
                 }
             } else {
                 Console::get().print(str::concat(
                     "No valid table \"settings.toml:character.game_settings\" "
                     "found for \"",
-                    name,
+                    std::string_view{name.data()},
                     "\"; using default."));
             }
 
@@ -765,6 +765,9 @@ simple_minimap = $
         if constexpr (std::is_same_v<x_type, std::string>) {
             // TODO: Escape special characters.
             settings << std::quoted(x);
+        } else if constexpr (std::is_same_v<x_type, utf8_string>) {
+            // TODO: Escape special characters.
+            settings << std::quoted(x.cpp_str());
         } else if constexpr (std::is_same_v<x_type, bool>) {
             if (x) {
                 settings << "true";
@@ -1015,7 +1018,7 @@ void Configuration::set_position_of(PositionOf po,
 }
 
 Configuration::Character&
-Configuration::get_character(const std::string& name) noexcept
+Configuration::get_character(const utf8_string& name) noexcept
 {
     auto [iter, inserted] = characters.try_emplace(name);
     return iter->second;

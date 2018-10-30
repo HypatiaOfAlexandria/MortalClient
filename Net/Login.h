@@ -13,11 +13,12 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #pragma once
 #include "../Character/MapleStat.h"
 #include "../Template/EnumMap.h"
+#include "tinyutf8.h"
 
 #include <cstdint>
 #include <string>
@@ -45,7 +46,7 @@ struct World {
 };
 
 struct StatsEntry {
-    std::string name;
+    utf8_string name;
     std::vector<std::int64_t> pet_ids;
     EnumMap<Maplestat::Id, std::uint16_t> stats;
     std::int64_t exp;

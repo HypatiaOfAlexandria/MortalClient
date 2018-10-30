@@ -13,10 +13,11 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #include "Text.h"
 
+#include "../Util/Str.h"
 #include "GraphicsGL.h"
 
 namespace jrc
@@ -25,15 +26,15 @@ Text::Text(Font f,
            Alignment a,
            Color c,
            Background b,
-           std::string&& t,
+           utf8_string&& t,
            std::uint16_t mw,
            bool fm) noexcept
-    : font(f),
-      alignment(a),
-      color(c),
-      background(b),
-      max_width(mw),
-      formatted(fm)
+    : font{f},
+      alignment{a},
+      color{c},
+      background{b},
+      max_width{mw},
+      formatted{fm}
 {
     change_text(std::move(t));
 }
@@ -41,10 +42,10 @@ Text::Text(Font f,
 Text::Text(Font f,
            Alignment a,
            Color c,
-           std::string&& t,
+           utf8_string&& t,
            std::uint16_t mw,
            bool fm) noexcept
-    : Text(f, a, c, NONE, std::move(t), mw, fm)
+    : Text{f, a, c, NONE, std::move(t), mw, fm}
 {
 }
 
@@ -62,7 +63,7 @@ void Text::reset_layout() noexcept
         text, font, alignment, max_width, formatted);
 }
 
-void Text::change_text(std::string&& t)
+void Text::change_text(utf8_string&& t)
 {
     if (text == t) {
         return;
@@ -129,7 +130,7 @@ Point<std::int16_t> Text::endoffset() const
     return layout.get_endoffset();
 }
 
-std::string_view Text::get_text() const noexcept
+const utf8_string& Text::get_text() const noexcept
 {
     return text;
 }
@@ -140,11 +141,11 @@ Text::Layout::Layout(const std::vector<Line>& l,
                      std::int16_t h,
                      std::int16_t ex,
                      std::int16_t ey)
-    : lines(l), advances(a), dimensions(w, h), endoffset(ex, ey)
+    : lines{l}, advances{a}, dimensions{w, h}, endoffset{ex, ey}
 {
 }
 
-Text::Layout::Layout() : Layout({}, {}, 0, 0, 0, 0)
+Text::Layout::Layout() : Layout{{}, {}, 0, 0, 0, 0}
 {
 }
 

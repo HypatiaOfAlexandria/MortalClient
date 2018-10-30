@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #include "Char.h"
 
@@ -28,14 +28,14 @@
 
 namespace jrc
 {
-Char::Char(std::int32_t o, const CharLook& lk, std::string&& name) noexcept
-    : MapObject(o),
-      look(lk),
-      name_label({Text::A13M,
-                  Text::CENTER,
-                  Text::WHITE,
-                  Text::NAMETAG,
-                  std::move(name)})
+Char::Char(std::int32_t o, const CharLook& lk, utf8_string&& name) noexcept
+    : MapObject{o},
+      look{lk},
+      name_label{Text::A13M,
+                 Text::CENTER,
+                 Text::WHITE,
+                 Text::NAMETAG,
+                 std::move(name)}
 {
 }
 
@@ -188,7 +188,7 @@ void Char::show_damage(std::int32_t damage)
     invincible.set_for(2'000);
 }
 
-void Char::speak(std::string&& line)
+void Char::speak(utf8_string&& line)
 {
     chat_balloon.change_text(std::move(line));
 }
@@ -290,7 +290,7 @@ void Char::set_state(State st)
 
 void Char::add_pet(std::uint8_t index,
                    std::int32_t iid,
-                   std::string&& name,
+                   utf8_string&& name,
                    std::int32_t uniqueid,
                    Point<std::int16_t> pos,
                    std::uint8_t stance,
@@ -300,7 +300,7 @@ void Char::add_pet(std::uint8_t index,
         return;
     }
 
-    pets[index] = PetLook(iid, std::move(name), uniqueid, pos, stance, fhid);
+    pets[index] = {iid, std::move(name), uniqueid, pos, stance, fhid};
 }
 
 void Char::remove_pet(std::uint8_t index, bool hunger)
@@ -309,9 +309,9 @@ void Char::remove_pet(std::uint8_t index, bool hunger)
         return;
     }
 
-    pets[index] = PetLook();
+    pets[index] = {};
     if (hunger) {
-        // TODO ?
+        // TODO: ???
     }
 }
 
@@ -350,7 +350,7 @@ bool Char::get_flip() const
     return flip;
 }
 
-std::string_view Char::get_name() const
+const utf8_string& Char::get_name() const
 {
     return name_label.get_text();
 }

@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #include "ChatBalloon.h"
 
@@ -25,32 +25,33 @@ namespace jrc
 {
 ChatBalloon::ChatBalloon(std::int8_t type)
 {
-    std::string typestr;
-    if (type < 0) {
-        switch (type) {
-        case -1:
-            typestr = "dead";
-            break;
+    std::string type_str = [type] {
+        if (type < 0) {
+            switch (type) {
+            case -1:
+                return std::string{"dead"};
+                break;
+            }
+        } else {
+            return std::to_string(type);
         }
-    } else {
-        typestr = std::to_string(type);
-    }
+    }();
 
-    nl::node src = nl::nx::ui["ChatBalloon.img"][typestr];
+    nl::node src = nl::nx::ui["ChatBalloon.img"][type_str];
 
     arrow = src["arrow"];
     frame = src;
 
-    textlabel = {Text::A11M, Text::CENTER, Text::BLACK, "", 80};
+    textlabel = {Text::A11M, Text::CENTER, Text::BLACK, u8"", 80};
 
     duration = 0;
 }
 
-ChatBalloon::ChatBalloon() : ChatBalloon(0)
+ChatBalloon::ChatBalloon() : ChatBalloon{0}
 {
 }
 
-void ChatBalloon::change_text(std::string&& text)
+void ChatBalloon::change_text(utf8_string&& text)
 {
     textlabel.change_text(std::move(text));
 
@@ -71,7 +72,7 @@ void ChatBalloon::draw(Point<std::int16_t> position) const
     textlabel.draw(position - Point<std::int16_t>(0, height + 4));
 }
 
-void ChatBalloon::update()
+void ChatBalloon::update() noexcept
 {
     duration -= Constants::TIMESTEP;
     if (duration < 0) {
@@ -79,7 +80,7 @@ void ChatBalloon::update()
     }
 }
 
-void ChatBalloon::expire()
+void ChatBalloon::expire() noexcept
 {
     duration = 0;
 }

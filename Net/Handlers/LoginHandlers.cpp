@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #include "LoginHandlers.h"
 
@@ -109,8 +109,8 @@ void CharlistHandler::handle(InPacket& recv) const
 
     // Parse all characters.
     std::vector<CharEntry> characters;
-    auto charcount = static_cast<std::uint8_t>(recv.read_byte());
-    for (std::uint8_t i = 0; i < charcount; ++i) {
+    auto char_count = static_cast<std::uint8_t>(recv.read_byte());
+    for (std::uint8_t i = 0; i < char_count; ++i) {
         characters.emplace_back(LoginParser::parse_charentry(recv));
     }
     std::int8_t pic = recv.read_byte();
@@ -122,7 +122,7 @@ void CharlistHandler::handle(InPacket& recv) const
 
     // Add the character selection screen.
     UI::get().emplace<UICharSelect>(
-        characters, charcount, slots, channel_id, pic);
+        characters, char_count, slots, channel_id, pic);
     UI::get().enable();
 }
 

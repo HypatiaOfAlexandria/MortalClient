@@ -13,10 +13,11 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #pragma once
 #include "DrawArgument.h"
+#include "tinyutf8.h"
 
 #include <cstdint>
 #include <map>
@@ -57,11 +58,31 @@ public:
             std::size_t last;
             Font font;
             Color color;
+
+            Word(std::size_t first_,
+                 std::size_t last_,
+                 Font font_,
+                 Color color_) noexcept
+                : first{first_}, last{last_}, font{font_}, color{color_}
+            {
+            }
         };
 
         struct Line {
             std::vector<Word> words;
             Point<std::int16_t> position;
+
+            Line(std::vector<Word>&& words_,
+                 Point<std::int16_t> position_) noexcept
+                : words{words_}, position{position_}
+            {
+            }
+
+            Line(const std::vector<Word>& words_,
+                 Point<std::int16_t> position_) noexcept
+                : words{words_}, position{position_}
+            {
+            }
         };
 
         Layout(const std::vector<Line>& lines,
@@ -93,20 +114,20 @@ public:
          Alignment alignment,
          Color color,
          Background background,
-         std::string&& text = "",
+         utf8_string&& text = u8"",
          std::uint16_t maxwidth = 0,
          bool formatted = true) noexcept;
     Text(Font font,
          Alignment alignment,
          Color color,
-         std::string&& text = "",
+         utf8_string&& text = u8"",
          std::uint16_t maxwidth = 0,
          bool formatted = true) noexcept;
     Text() noexcept;
 
     void draw(const DrawArgument& args) const;
 
-    void change_text(std::string&& text);
+    void change_text(utf8_string&& text);
     void change_color(Color color);
     void set_background(Background background);
 
@@ -117,7 +138,7 @@ public:
     std::uint16_t advance(std::size_t pos) const;
     Point<std::int16_t> dimensions() const;
     Point<std::int16_t> endoffset() const;
-    std::string_view get_text() const noexcept;
+    const utf8_string& get_text() const noexcept;
 
 private:
     void reset_layout() noexcept;
@@ -129,6 +150,6 @@ private:
     Layout layout;
     std::uint16_t max_width;
     bool formatted;
-    std::string text;
+    utf8_string text;
 };
 } // namespace jrc

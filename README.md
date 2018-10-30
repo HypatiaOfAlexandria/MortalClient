@@ -122,6 +122,8 @@ $ git clone https://github.com/skystrife/cpptoml.git
 
 $ git clone https://github.com/imneme/pcg-cpp.git
 
+$ git clone https://github.com/DuffsDevice/tinyutf8.git
+
 $ export CC='/usr/bin/clang'
 $ export CXX='/usr/bin/clang++'
 
@@ -230,6 +232,8 @@ $ git clone https://github.com/skystrife/cpptoml.git
 
 $ git clone https://github.com/imneme/pcg-cpp.git
 
+$ git clone https://github.com/DuffsDevice/tinyutf8.git
+
 $ export CC='clang'
 $ export CXX='clang++'
 
@@ -309,6 +313,8 @@ $ git clone https://github.com/ubawurinna/freetype-windows-binaries.git freetype
 $ git clone https://github.com/skystrife/cpptoml.git
 
 $ git clone https://github.com/imneme/pcg-cpp.git
+
+$ git clone https://github.com/DuffsDevice/tinyutf8.git
 ```
 
 Navigate to
@@ -453,6 +459,7 @@ MortalClient uses crypto (`JOURNEY_USE_CRYPTO`), and also uses ASIO
 | PRNG              | [PCG](http://www.pcg-random.org/) (C++ implementation)     | Apache 2.0/MIT      | -              | Yes              | No            |
 | Config            | [cpptoml](https://github.com/skystrife/cpptoml)            | MIT                 | -              | Yes              | No            |
 | General           | [Boost](https://www.boost.org/) (Bimap, Container)         | Boost               | -              | Yes              | No            |
+| Strings           | [tinyutf8](https://github.com/DuffsDevice/tinyutf8/)       | BSD 3-Clause        | -              | No               | No            |
 
 ## Licensing
 

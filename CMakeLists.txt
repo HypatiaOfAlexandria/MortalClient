@@ -176,7 +176,9 @@ SET(SOURCE_FILES ${Root_CPP}
                  "../boost/boost/container/flat_set.hpp"
                  "../boost/boost/container/static_vector.hpp"
                  "../cpptoml/include/cpptoml.h"
-                 "../pcg-cpp/include/pcg_random.hpp")
+                 "../pcg-cpp/include/pcg_random.hpp"
+                 "../tinyutf8/include/tinyutf8.h"
+                 "../tinyutf8/lib/tinyutf8.cpp")
 
 # Adding file globs created above as libraries
 add_library(Audio         ${Audio_CPP})
@@ -203,6 +205,8 @@ add_library(Helpers       ${Helpers_CPP})
 add_library(Configuration "Configuration.cpp")
 
 add_library(nlnx          ${nlnx_CPP})
+
+add_library(tinyutf8      "../tinyutf8/lib/tinyutf8.cpp")
 
 # Target executable
 add_executable(JourneyClient ${SOURCE_FILES})
@@ -244,6 +248,8 @@ target_link_libraries(JourneyClient Helpers)
 target_link_libraries(JourneyClient Configuration)
 
 target_link_libraries(JourneyClient nlnx)
+
+target_link_libraries(JourneyClient tinyutf8)
 
 # Link in shared object files
 if(UNIX AND NOT APPLE)
@@ -290,3 +296,4 @@ include_directories("/usr/include")
 include_directories("/usr/include/SDL2")
 include_directories("../cpptoml/include")
 include_directories("../pcg-cpp/include")
+include_directories("../tinyutf8/include")

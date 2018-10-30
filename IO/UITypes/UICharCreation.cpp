@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #include "UICharCreation.h"
 
@@ -235,7 +235,7 @@ Button::State UICharCreation::button_pressed(std::uint16_t id)
     switch (id) {
     case BT_CHARC_OK:
         if (named) {
-            std::string cname = name_char.get_text();
+            utf8_string cname = name_char.get_text();
             std::uint16_t cjob = 1;
             std::int32_t cface = faces[female][face];
             std::int32_t chair = hairs[female][hair];
@@ -245,7 +245,7 @@ Button::State UICharCreation::button_pressed(std::uint16_t id)
             std::int32_t cbot = bots[female][bottom];
             std::int32_t cshoe = shoes[female][shoe];
             std::int32_t cwep = weapons[female][weapon];
-            CreateCharPacket{cname,
+            CreateCharPacket{std::string_view{cname.data()},
                              cjob,
                              cface,
                              chair,
@@ -259,13 +259,13 @@ Button::State UICharCreation::button_pressed(std::uint16_t id)
                 .dispatch();
             return Button::PRESSED;
         } else {
-            std::string name = name_char.get_text();
+            utf8_string name = name_char.get_text();
             if (name.size() >= 4) {
                 name_char.set_state(Textfield::NORMAL);
 
                 UI::get().disable();
                 UI::get().focus_text_field(nullptr);
-                NameCharPacket{name}.dispatch();
+                NameCharPacket{std::string_view{name.data()}}.dispatch();
                 return Button::PRESSED;
             } else {
                 UI::get().emplace<UILoginNotice>(UILoginNotice::ILLEGAL_NAME);

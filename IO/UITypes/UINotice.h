@@ -13,12 +13,13 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #pragma once
 #include "../../Graphics/Texture.h"
 #include "../Components/Textfield.h"
 #include "../UIElement.h"
+#include "tinyutf8.h"
 
 #include <functional>
 
@@ -32,7 +33,7 @@ public:
     static constexpr const bool TOGGLED = false;
 
 protected:
-    UINotice(std::string&& question);
+    UINotice(utf8_string&& question);
 
     void draw_notice(bool text_field) const;
 
@@ -53,7 +54,7 @@ private:
 class UIYesNo : public UINotice
 {
 public:
-    UIYesNo(std::string&& question,
+    UIYesNo(utf8_string&& question,
             std::function<void(bool yes)> yes_no_handler);
 
     void draw(float alpha) const override;
@@ -70,7 +71,7 @@ private:
 class UIEnterNumber : public UINotice
 {
 public:
-    UIEnterNumber(std::string&& question,
+    UIEnterNumber(utf8_string&& question,
                   std::function<void(std::int32_t number)> n_handler,
                   std::int32_t min,
                   std::int32_t max,
@@ -86,7 +87,7 @@ protected:
     Button::State button_pressed(std::uint16_t button_id) override;
 
 private:
-    void handle_string(const std::string& num_str);
+    void handle_string(const utf8_string& num_str);
 
     enum Buttons : std::int16_t { OK, CANCEL };
 

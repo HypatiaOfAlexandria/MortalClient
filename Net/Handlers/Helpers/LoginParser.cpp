@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #include "LoginParser.h"
 
@@ -96,7 +96,7 @@ StatsEntry LoginParser::parse_stats(InPacket& recv)
 {
     StatsEntry statsentry;
 
-    statsentry.name = recv.read_padded_string(13);
+    statsentry.name = std::move(recv.read_string_raw());
 
     recv.read_bool(); // gender
     recv.read_byte(); // skin

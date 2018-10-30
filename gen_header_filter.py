@@ -2,7 +2,7 @@
 
 import os
 
-EXCLUDE_DIRS = [".git", "build", "gsl", ".vscode"]
+EXCLUDE_DIRS = [".git", "build", ".vscode"]
 
 
 print(".*(", end="")

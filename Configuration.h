@@ -13,16 +13,32 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #pragma once
 #include "Template/Point.h"
 #include "cpptoml.h"
+#include "tinyutf8.h"
 
 #include <cstdint>
+#include <functional>
 #include <optional>
 #include <string>
 #include <vector>
+
+namespace std
+{
+template<>
+struct hash<utf8_string> {
+    typedef utf8_string argument_type;
+    typedef std::size_t result_type;
+
+    result_type operator()(const argument_type& s) const noexcept
+    {
+        return std::hash<std::string_view>{}(std::string_view{s.data()});
+    }
+};
+} // namespace std
 
 namespace jrc
 {
@@ -146,7 +162,7 @@ struct Configuration : public Singleton<Configuration> {
     Network network;
     Fonts fonts;
     Account account;
-    std::unordered_map<std::string, Character> characters;
+    std::unordered_map<utf8_string, Character> characters;
     Video video;
     Audio audio;
     Ui ui;
@@ -155,7 +171,7 @@ struct Configuration : public Singleton<Configuration> {
     //! character identified by name. **Inserts a new character with the**
     //! **default configuration if there isn't already one with the specified**
     //! **name**.
-    [[nodiscard]] Character& get_character(const std::string& name) noexcept;
+    [[nodiscard]] Character& get_character(const utf8_string& name) noexcept;
 
 private:
     //! Helper function for getting `Point`s out of TOML arrays. Converts the

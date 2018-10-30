@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #include "UICharSelect.h"
 
@@ -38,18 +38,18 @@ UICharSelect::UICharSelect(std::vector<CharEntry> cs,
                            std::uint8_t s,
                            std::uint8_t channel_id,
                            std::int8_t p)
-    : characters(cs), require_pic(p), char_count_absolute(c), slots_absolute(s)
+    : characters{cs}, require_pic{p}, char_count_absolute{c}, slots_absolute{s}
 {
     selected_absolute = Configuration::get().account.character;
     selected_relative = selected_absolute % PAGE_SIZE;
     page = selected_absolute / PAGE_SIZE;
 
-    // nl::node title = nl::nx::ui["Login.img"]["Title"];
-    nl::node common = nl::nx::ui["Login.img"]["Common"];
-    nl::node char_select = nl::nx::ui["Login.img"]["CharSelect"];
+    auto login = nl::nx::ui["Login.img"];
+    // nl::node title = login["Title"];
+    nl::node common = login["Common"];
+    nl::node char_select = login["CharSelect"];
 
-    sprites.emplace_back(
-        nl::nx::ui["Login.img"]["RaceSelect_new"]["Back"]["1"]);
+    sprites.emplace_back(login["RaceSelect_new"]["Back"]["1"]);
     sprites.emplace_back(common["frame"], Point<std::int16_t>{400, 290});
 
     // Post BB
@@ -68,12 +68,10 @@ UICharSelect::UICharSelect(std::vector<CharEntry> cs,
 
     sprites.emplace_back(char_select["charInfo"], char_info_pos);
     sprites.emplace_back(common["selectWorld"], sel_world_pos);
-    sprites.emplace_back(char_select["selectedWorld"]["icon"]["15"],
-                         sel_world_pos);
-    sprites.emplace_back(char_select["selectedWorld"]["name"]["15"],
-                         sel_world_pos);
-    sprites.emplace_back(char_select["selectedWorld"]["ch"][channel_id],
-                         sel_world_pos);
+    auto selected_world = char_select["selectedWorld"];
+    sprites.emplace_back(selected_world["icon"]["15"], sel_world_pos);
+    sprites.emplace_back(selected_world["name"]["15"], sel_world_pos);
+    sprites.emplace_back(selected_world["ch"][channel_id], sel_world_pos);
 
     empty_slot = char_select["buyCharacter"];
     name_tag = char_select["nameTag"];
@@ -105,7 +103,7 @@ UICharSelect::UICharSelect(std::vector<CharEntry> cs,
     for (const auto& entry : characters) {
         char_looks.emplace_back(entry.look);
         name_tags.emplace_back(
-            name_tag, Text::A13M, Text::WHITE, std::string{entry.stats.name});
+            name_tag, Text::A13M, Text::WHITE, utf8_string{entry.stats.name});
     }
 
     update_counts();
@@ -328,7 +326,7 @@ void UICharSelect::add_character(CharEntry character)
 {
     char_looks.emplace_back(character.look);
     name_tags.emplace_back(
-        name_tag, Text::A13M, Text::WHITE, std::string{character.stats.name});
+        name_tag, Text::A13M, Text::WHITE, utf8_string{character.stats.name});
 
     characters.emplace_back(std::move(character));
 

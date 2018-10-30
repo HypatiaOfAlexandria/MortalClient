@@ -13,11 +13,12 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #pragma once
 #include "../Template/Point.h"
 #include "PacketError.h"
+#include "tinyutf8.h"
 
 #include <cstdint>
 #include <optional>
@@ -71,6 +72,10 @@ public:
     //!
     //! Throws a `PacketError` on stack underflow.
     std::string read_string() noexcept(false);
+    //! Read a string, including/unaware of padding (`'\0'` bytes).
+    //!
+    //! Throws a `PacketError` on stack underflow.
+    std::string read_string_raw() noexcept(false);
     //! Read a fixed-length string.
     //!
     //! Throws a `PacketError` on stack underflow.
@@ -99,7 +104,7 @@ private:
         T all = 0;
         for (std::size_t i = 0; i < count; ++i) {
             T val = static_cast<std::uint8_t>(bytes[pos]);
-            all += val << (8 * i);
+            all |= val << (i << 3);
 
             skip(1);
         }

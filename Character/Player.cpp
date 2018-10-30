@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #include "Player.h"
 
@@ -62,7 +62,7 @@ const PlayerState* get_state(Char::State state)
 }
 
 Player::Player(const CharEntry& entry)
-    : Char(entry.cid, entry.look, std::string{entry.stats.name}),
+    : Char(entry.cid, entry.look, utf8_string{entry.stats.name}),
       stats(entry.stats)
 {
     attacking = false;
@@ -72,7 +72,7 @@ Player::Player(const CharEntry& entry)
     set_direction(false);
 }
 
-Player::Player() : Char{0, {}, ""}
+Player::Player() : Char{0, {}, u8""}
 {
 }
 

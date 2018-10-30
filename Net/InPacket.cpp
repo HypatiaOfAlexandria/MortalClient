@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #include "InPacket.h"
 
@@ -81,12 +81,27 @@ std::string InPacket::read_string()
     return read_padded_string(length);
 }
 
+std::string InPacket::read_string_raw()
+{
+    auto length = read<std::uint16_t>();
+
+    std::string ret;
+    ret.reserve(static_cast<std::string::size_type>(length));
+
+    for (std::uint16_t i = 0; i < length; ++i) {
+        ret.push_back(static_cast<char>(read_byte()));
+    }
+
+    return ret;
+}
+
 std::string InPacket::read_padded_string(std::uint16_t count)
 {
     std::string ret;
+    ret.reserve(static_cast<std::string::size_type>(count));
 
-    for (std::int16_t i = 0; i < count; ++i) {
-        char letter = read_byte();
+    for (std::uint16_t i = 0; i < count; ++i) {
+        char letter = static_cast<char>(read_byte());
         if (letter != '\0') {
             ret.push_back(letter);
         }

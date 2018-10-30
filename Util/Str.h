@@ -5,6 +5,8 @@
 #pragma once
 
 #include <cstdio>
+#include <locale>
+#include <optional>
 #include <string>
 #include <type_traits>
 #include <utility>

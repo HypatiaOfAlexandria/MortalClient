@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #include "Textfield.h"
 
@@ -27,9 +27,9 @@ Textfield::Textfield(Text::Font font,
                      Text::Color color,
                      Rectangle<std::int16_t> bnd,
                      std::size_t lim) noexcept
-    : text_label(font, alignment, color, "", 0, false),
+    : text_label(font, alignment, color, u8"", 0, false),
       text(),
-      marker(font, alignment, color, "|"),
+      marker(font, alignment, color, u8"|"),
       show_marker(true),
       marker_pos(0),
       bounds(bnd),
@@ -90,7 +90,7 @@ void Textfield::set_state(State st) noexcept
 }
 
 void Textfield::set_enter_callback(
-    std::function<void(const std::string&)> on_ret) noexcept
+    std::function<void(const utf8_string&)> on_ret) noexcept
 {
     on_return = on_ret;
 }
@@ -129,14 +129,14 @@ void Textfield::send_key(KeyType::Id type,
             case KeyAction::RETURN:
                 if (on_return && text.size() > 0) {
                     on_return(text);
-                    text = "";
+                    text = u8"";
                     marker_pos = 0;
                     text_modified();
                 }
                 break;
             case KeyAction::SPACE:
                 if (marker_pos > 0 && below_limit()) {
-                    text.insert(marker_pos, 1, ' ');
+                    text.insert(marker_pos, U' ');
                     ++marker_pos;
                     text_modified();
                 }
@@ -152,9 +152,9 @@ void Textfield::send_key(KeyType::Id type,
     case KeyType::LETTER:
     case KeyType::NUMBER:
         if (pressed) {
-            auto c = static_cast<char>(key);
+            auto c = static_cast<char32_t>(key);
             if (below_limit()) {
-                text.insert(marker_pos, 1, c);
+                text.insert(marker_pos, c);
                 ++marker_pos;
                 text_modified();
             }
@@ -165,11 +165,11 @@ void Textfield::send_key(KeyType::Id type,
     }
 }
 
-void Textfield::add_string(std::string_view str) noexcept
+void Textfield::add_string(const utf8_string& str) noexcept
 {
-    for (char c : str) {
+    for (char32_t c : str) {
         if (below_limit()) {
-            text.insert(marker_pos, 1, c);
+            text.insert(marker_pos, c);
             ++marker_pos;
             text_modified();
         }
@@ -179,9 +179,9 @@ void Textfield::add_string(std::string_view str) noexcept
 void Textfield::text_modified() noexcept
 {
     if (crypt != '\0') {
-        text_label.change_text(std::string(text.length(), crypt));
+        text_label.change_text(utf8_string(text.length(), crypt));
     } else {
-        text_label.change_text(std::string{text});
+        text_label.change_text(utf8_string{text});
     }
 }
 
@@ -220,7 +220,7 @@ Cursor::State Textfield::send_cursor(Point<std::int16_t> cursorpos,
     }
 }
 
-void Textfield::change_text(std::string&& t) noexcept
+void Textfield::change_text(utf8_string&& t) noexcept
 {
     text = std::move(t);
     text_modified();
@@ -242,7 +242,7 @@ bool Textfield::below_limit() const noexcept
     }
 }
 
-const std::string& Textfield::get_text() const noexcept
+const utf8_string& Textfield::get_text() const noexcept
 {
     return text;
 }

@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #include "UILogin.h"
 
@@ -79,7 +79,7 @@ UILogin::UILogin()
         account.set_state(Textfield::NORMAL);
         password.set_state(Textfield::FOCUSED);
     });
-    account.set_enter_callback([this](const std::string&) { login(); });
+    account.set_enter_callback([this](const utf8_string&) { login(); });
     account_bg = title["ID"];
 
     password
@@ -88,7 +88,7 @@ UILogin::UILogin()
         password.set_state(Textfield::NORMAL);
         account.set_state(Textfield::FOCUSED);
     });
-    password.set_enter_callback([this](const std::string&) { login(); });
+    password.set_enter_callback([this](const utf8_string&) { login(); });
     password.set_crypt_char('*');
     password_bg = title["PW"];
 
@@ -140,7 +140,9 @@ void UILogin::login()
     account.set_state(Textfield::NORMAL);
     password.set_state(Textfield::NORMAL);
 
-    LoginPacket{account.get_text(), password.get_text()}.dispatch();
+    LoginPacket{std::string_view{account.get_text().data()},
+                std::string_view{password.get_text().data()}}
+        .dispatch();
 }
 
 Button::State UILogin::button_pressed(std::uint16_t id)

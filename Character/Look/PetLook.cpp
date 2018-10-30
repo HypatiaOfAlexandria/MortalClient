@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #include "PetLook.h"
 
@@ -24,7 +24,7 @@
 namespace jrc
 {
 PetLook::PetLook(std::int32_t iid,
-                 std::string&& nm,
+                 utf8_string&& nm,
                  std::int32_t uqid,
                  Point<std::int16_t> pos,
                  std::uint8_t st,
@@ -40,7 +40,7 @@ PetLook::PetLook(std::int32_t iid,
                  Text::CENTER,
                  Text::WHITE,
                  Text::NAMETAG,
-                 std::string{name}};
+                 utf8_string{name}};
 
     std::string str_id = std::to_string(iid);
 
@@ -62,7 +62,7 @@ PetLook::PetLook(std::int32_t iid,
 PetLook::PetLook() noexcept
 {
     item_id = 0;
-    name = "";
+    name = u8"";
     unique_id = 0;
     stance = Stance::STAND;
 }

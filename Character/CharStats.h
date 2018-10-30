@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #pragma once
 #include "../Net/Login.h"
@@ -22,6 +22,7 @@
 #include "EquipStat.h"
 #include "Inventory/Weapon.h"
 #include "Job.h"
+#include "tinyutf8.h"
 
 #include <string_view>
 
@@ -61,7 +62,7 @@ public:
     std::int32_t get_map_id() const;
     std::uint8_t get_portal() const;
     std::int64_t get_exp() const;
-    std::string_view get_name() const;
+    const utf8_string& get_name() const;
     std::string_view get_job_name() const;
     Weapon::Type get_weapon_type() const;
     float get_mastery() const;
@@ -87,7 +88,7 @@ private:
     std::int32_t get_secondary_stat() const;
     float get_multiplier() const;
 
-    std::string name;
+    utf8_string name;
     std::vector<std::int64_t> pet_ids;
     Job job;
     std::int64_t exp;

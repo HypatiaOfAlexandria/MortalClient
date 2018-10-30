@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #include "UISoftKey.h"
 
@@ -71,7 +71,7 @@ void UISoftkey::draw(float alpha) const
 
 Button::State UISoftkey::button_pressed(std::uint16_t id)
 {
-    std::string entered{entry.get_text()};
+    utf8_string entered{entry.get_text()};
 
     switch (id) {
     case BT_0:
@@ -101,7 +101,7 @@ Button::State UISoftkey::button_pressed(std::uint16_t id)
         break;
     case BT_OK:
         if (entered.size() >= MIN_SIZE && callback) {
-            callback(entered);
+            callback(std::string_view{entered.data()});
             active = false;
         }
         break;

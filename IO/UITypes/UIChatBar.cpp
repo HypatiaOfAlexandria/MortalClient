@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #include "UIChatBar.h"
 
@@ -75,12 +75,12 @@ UIChatbar::UIChatbar(Point<std::int16_t> pos)
     chat_field
         = {Text::A11M, Text::LEFT, Text::BLACK, {{-435, -58}, {-40, -35}}, 0};
     chat_field.set_state(chatopen ? Textfield::NORMAL : Textfield::DISABLED);
-    chat_field.set_enter_callback([this](const std::string& msg) {
-        auto last = msg.find_last_not_of(' ');
-        if (last != std::string::npos) {
-            std::string m = msg.substr(0, last + 1);
+    chat_field.set_enter_callback([this](const utf8_string& msg) {
+        auto last = msg.find_last_not_of(U" "); // TODO: i18n
+        if (last != utf8_string::npos) {
+            auto m = msg.substr(0, last + 1);
 
-            GeneralChatPacket{m, true}.dispatch();
+            GeneralChatPacket{std::string_view{m.data()}, true}.dispatch();
 
             last_entered.push_back(std::move(m));
             lastpos = last_entered.size();
@@ -89,13 +89,13 @@ UIChatbar::UIChatbar(Point<std::int16_t> pos)
     chat_field.set_key_callback(KeyAction::UP, [this] {
         if (lastpos > 0) {
             --lastpos;
-            chat_field.change_text(std::string{last_entered[lastpos]});
+            chat_field.change_text(utf8_string{last_entered[lastpos]});
         }
     });
     chat_field.set_key_callback(KeyAction::DOWN, [this] {
         if (last_entered.size() > 0 && lastpos < last_entered.size() - 1) {
             ++lastpos;
-            chat_field.change_text(std::string{last_entered[lastpos]});
+            chat_field.change_text(utf8_string{last_entered[lastpos]});
         }
     });
 
@@ -249,7 +249,7 @@ Cursor::State UIChatbar::send_cursor(bool clicking,
     return UIElement::send_cursor(clicking, cursorpos);
 }
 
-void UIChatbar::send_line(std::string&& line, LineType type)
+void UIChatbar::send_line(utf8_string&& line, LineType type)
 {
     ++row_max;
     row_pos = row_max;

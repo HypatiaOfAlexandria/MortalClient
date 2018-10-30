@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #include "CharStats.h"
 
@@ -22,14 +22,14 @@
 namespace jrc
 {
 CharStats::CharStats(const StatsEntry& s)
-    : name(s.name),
-      pet_ids(s.pet_ids),
-      exp(s.exp),
-      map_id(s.map_id),
-      portal(s.portal),
-      rank(s.rank),
-      job_rank(s.job_rank),
-      base_stats(s.stats)
+    : name{s.name},
+      pet_ids{s.pet_ids},
+      exp{s.exp},
+      map_id{s.map_id},
+      portal{s.portal},
+      rank{s.rank},
+      job_rank{s.job_rank},
+      base_stats{s.stats}
 {
     job = base_stats[Maplestat::JOB];
     init_total_stats();
@@ -261,7 +261,7 @@ std::int64_t CharStats::get_exp() const
     return exp;
 }
 
-std::string_view CharStats::get_name() const
+const utf8_string& CharStats::get_name() const
 {
     return name;
 }

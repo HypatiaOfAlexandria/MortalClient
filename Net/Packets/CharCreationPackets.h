@@ -13,10 +13,11 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #pragma once
 #include "../OutPacket.h"
+#include "tinyutf8.h"
 
 #include <string_view>
 
@@ -27,7 +28,7 @@ namespace jrc
 class NameCharPacket : public OutPacket
 {
 public:
-    NameCharPacket(std::string_view name) : OutPacket(NAME_CHAR)
+    NameCharPacket(std::string_view name) : OutPacket{NAME_CHAR}
     {
         write_string(name);
     }
@@ -49,7 +50,7 @@ public:
                      std::int32_t shoes,
                      std::int32_t weapon,
                      bool female)
-        : OutPacket(CREATE_CHAR)
+        : OutPacket{CREATE_CHAR}
     {
         write_string(name);
         write_int(job);

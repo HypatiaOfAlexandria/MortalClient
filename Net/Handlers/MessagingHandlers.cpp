@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #include "MessagingHandlers.h"
 
@@ -29,11 +29,11 @@ namespace jrc
 {
 //! ## Modes:
 //!
-//! - 0 : Item(0) or Meso(1)
-//! - 3 : EXP gain
-//! - 4 : Fame
-//! - 5 : Mesos
-//! - 6 : Guild points
+//! * 0 : Item(0) or Meso(1)
+//! * 3 : EXP gain
+//! * 4 : Fame
+//! * 5 : Mesos
+//! * 6 : Guild points
 void ShowStatusInfoHandler::handle(InPacket& recv) const
 {
     std::int8_t mode = recv.read_byte();
@@ -136,13 +136,13 @@ void ServerMessageHandler::handle(InPacket& recv) const
 void WeekEventMessageHandler::handle(InPacket& recv) const
 {
     recv.read_byte(); // always 0xFF in solaxia and moople
-    std::string message = recv.read_string();
+    utf8_string message = recv.read_string();
 
-    static constexpr const std::string_view MAPLETIP = "[MapleTip]";
-    if (std::string_view(message)
+    static constexpr const std::string_view MAPLETIP = u8"[MapleTip]";
+    if (std::string_view{message.data()}
             .substr(0, MAPLETIP.length())
             .compare(MAPLETIP)) {
-        message.insert(0, "[Notice] ", 9);
+        message.insert(0, u8"[Notice] ");
     }
 
     UI::get().get_element<UIStatusbar>()->send_chatline(std::move(message),
@@ -153,15 +153,15 @@ void ChatReceivedHandler::handle(InPacket& recv) const
 {
     std::int32_t charid = recv.read_int();
     recv.read_bool(); // 'gm'
-    std::string message = recv.read_string();
+    utf8_string message = recv.read_string();
     std::int8_t type = recv.read_byte();
 
-    if (auto character = Stage::get().get_character(charid)) {
+    if (auto character = Stage::get().get_character(charid); character) {
         auto char_name = character->get_name();
-        message.reserve(message.capacity() + char_name.length() + 2);
+        // message.reserve(message.capacity() + char_name.length() + 2);
         message.insert(0, char_name);
-        message.insert(char_name.length(), ": ");
-        character->speak(std::string{message});
+        message.insert(char_name.length(), u8": ");
+        character->speak(utf8_string{message});
     }
 
     auto linetype = static_cast<UIChatbar::LineType>(type);

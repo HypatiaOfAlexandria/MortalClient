@@ -13,9 +13,10 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http:///www.gnu.org/licenses/>.   //
+// along with this program.  If not, see <https:///www.gnu.org/licenses/>.  //
 //////////////////////////////////////////////////////////////////////////////
 #pragma once
+
 #include "../Gameplay/Combat/DamageNumber.h"
 #include "../Gameplay/MapleMap/MapObject.h"
 #include "../Graphics/EffectLayer.h"
@@ -28,6 +29,7 @@
 #include "Look/Afterimage.h"
 #include "Look/CharLook.h"
 #include "Look/PetLook.h"
+#include "tinyutf8.h"
 
 #include <vector>
 
@@ -102,7 +104,7 @@ public:
     //! Display damage over the characters head.
     void show_damage(std::int32_t damage);
     //! Display a chat bubble with the specified line in it.
-    void speak(std::string&& line);
+    void speak(utf8_string&& line);
     //! Change a part of the character's look.
     void change_look(Maplestat::Id stat, std::int32_t id);
     //! Change the character's state by id.
@@ -113,7 +115,7 @@ public:
     //! Add a pet with the specified stats.
     void add_pet(std::uint8_t index,
                  std::int32_t iid,
-                 std::string&& name,
+                 utf8_string&& name,
                  std::int32_t uniqueid,
                  Point<std::int16_t> pos,
                  std::uint8_t stance,
@@ -124,7 +126,7 @@ public:
     //! Return if the character is facing left.
     bool get_flip() const;
     //! Return the name of this character.
-    std::string_view get_name() const;
+    const utf8_string& get_name() const;
 
     //! Return if the char is in the Char::SIT state.
     bool is_sitting() const;
@@ -146,7 +148,7 @@ public:
     static void init();
 
 protected:
-    Char(std::int32_t oid, const CharLook& look, std::string&& name) noexcept;
+    Char(std::int32_t oid, const CharLook& look, utf8_string&& name) noexcept;
 
     //! Update the character's animation with the given speed.
     bool update(const Physics& physics, float speed);

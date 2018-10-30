@@ -13,13 +13,15 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #pragma once
+
 #include "../../Graphics/Text.h"
 #include "../../Template/Rectangle.h"
 #include "../Cursor.h"
 #include "../Keyboard.h"
+#include "tinyutf8.h"
 
 #include <functional>
 #include <string_view>
@@ -43,14 +45,14 @@ public:
     void draw(Point<std::int16_t> position) const;
     void update(Point<std::int16_t> parentpos) noexcept;
     void send_key(KeyType::Id type, std::int32_t code, bool down) noexcept;
-    void add_string(std::string_view str) noexcept;
+    void add_string(const utf8_string& str) noexcept;
 
     void set_state(State state) noexcept;
-    void change_text(std::string&& text) noexcept;
+    void change_text(utf8_string&& text) noexcept;
     void set_crypt_char(char c) noexcept;
 
     void set_enter_callback(
-        std::function<void(const std::string&)> on_ret) noexcept;
+        std::function<void(const utf8_string&)> on_ret) noexcept;
     void set_key_callback(std::int32_t key,
                           std::function<void()> action) noexcept;
 
@@ -60,14 +62,14 @@ public:
     bool empty() const noexcept;
     State get_state() const noexcept;
     Rectangle<std::int16_t> get_bounds() const noexcept;
-    const std::string& get_text() const noexcept;
+    const utf8_string& get_text() const noexcept;
 
 private:
     void text_modified() noexcept;
     bool below_limit() const noexcept;
 
     Text text_label;
-    std::string text;
+    utf8_string text;
     Text marker;
     bool show_marker;
     std::uint16_t elapsed;
@@ -79,6 +81,6 @@ private:
     State state;
 
     std::unordered_map<std::int32_t, std::function<void()>> callbacks;
-    std::function<void(const std::string&)> on_return;
+    std::function<void(const utf8_string&)> on_return;
 };
 } // namespace jrc

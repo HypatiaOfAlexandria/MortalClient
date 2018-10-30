@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #include "UINotice.h"
 
@@ -24,7 +24,7 @@
 
 namespace jrc
 {
-UINotice::UINotice(std::string&& q)
+UINotice::UINotice(utf8_string&& q)
 {
     nl::node src = nl::nx::ui["Basic.img"]["Notice6"];
 
@@ -77,7 +77,7 @@ std::int16_t UINotice::box2offset() const
                  * (static_cast<std::int16_t>(1) + height / box.height());
 }
 
-UIYesNo::UIYesNo(std::string&& q, std::function<void(bool)> yh)
+UIYesNo::UIYesNo(utf8_string&& q, std::function<void(bool)> yh)
     : UINotice{std::move(q)}, yes_no_handler{yh}
 {
     std::int16_t below_text = UINotice::box2offset();
@@ -112,7 +112,7 @@ Button::State UIYesNo::button_pressed(std::uint16_t button_id)
     return Button::PRESSED;
 }
 
-UIEnterNumber::UIEnterNumber(std::string&& q,
+UIEnterNumber::UIEnterNumber(utf8_string&& q,
                              std::function<void(std::int32_t)> n_handler,
                              std::int32_t mi,
                              std::int32_t ma,
@@ -137,7 +137,7 @@ UIEnterNumber::UIEnterNumber(std::string&& q,
     num_field.set_state(Textfield::FOCUSED);
     num_field.change_text(std::to_string(de));
     num_field.set_enter_callback(
-        [this](const std::string& num_str) { handle_string(num_str); });
+        [this](const utf8_string& num_str) { handle_string(num_str); });
 }
 
 void UIEnterNumber::draw(float alpha) const
@@ -180,12 +180,13 @@ Button::State UIEnterNumber::button_pressed(std::uint16_t button_id)
     return Button::PRESSED;
 }
 
-void UIEnterNumber::handle_string(const std::string& num_str)
+void UIEnterNumber::handle_string(const utf8_string& num_str)
 {
     if (!num_str.empty()) {
-        const auto num = [&num_str] {
+        std::int32_t num = [&num_str] {
             try {
-                return std::stoi(num_str);
+                return static_cast<std::int32_t>(
+                    std::strtol(num_str.data(), nullptr, 10));
             } catch (const std::logic_error&) {
             }
             return std::numeric_limits<std::int32_t>::lowest();

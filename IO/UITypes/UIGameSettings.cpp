@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #include "UIGameSettings.h"
 
@@ -105,14 +105,14 @@ void UIGameSettings::load_settings() noexcept
 {
     checks_state
         = Configuration::get()
-              .get_character(std::string{Stage::get().get_player().get_name()})
+              .get_character(utf8_string{Stage::get().get_player().get_name()})
               .game_settings.flags;
 }
 
 void UIGameSettings::commit() const noexcept
 {
     Configuration::get()
-        .get_character(std::string{Stage::get().get_player().get_name()})
+        .get_character(utf8_string{Stage::get().get_player().get_name()})
         .game_settings.flags
         = checks_state;
 }

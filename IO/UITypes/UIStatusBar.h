@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #pragma once
 #include "../../Character/CharStats.h"
@@ -27,6 +27,7 @@
 #include "../Messages.h"
 #include "../UIElement.h"
 #include "UIChatBar.h"
+#include "tinyutf8.h"
 
 namespace jrc
 {
@@ -47,7 +48,7 @@ public:
     Cursor::State send_cursor(bool pressed,
                               Point<std::int16_t> cursorpos) override;
 
-    void send_chatline(std::string&& line, UIChatbar::LineType type);
+    void send_chatline(utf8_string&& line, UIChatbar::LineType type);
     void display_message(Messages::Type line, UIChatbar::LineType type);
 
 protected:

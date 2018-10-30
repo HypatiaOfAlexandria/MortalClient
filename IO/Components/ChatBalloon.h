@@ -13,11 +13,13 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #pragma once
+
 #include "../../Graphics/Text.h"
 #include "MapleFrame.h"
+#include "tinyutf8.h"
 
 namespace jrc
 {
@@ -28,13 +30,13 @@ public:
     ChatBalloon();
 
     void draw(Point<std::int16_t> position) const;
-    void update();
+    void update() noexcept;
 
-    void change_text(std::string&& text);
-    void expire();
+    void change_text(utf8_string&& text);
+    void expire() noexcept;
 
 private:
-    //! How long a line stays on screen. 4 seconds.
+    //! How long a line stays on screen, in milliseconds.
     static constexpr std::int16_t DURATION = 4'000;
 
     MapleFrame frame;

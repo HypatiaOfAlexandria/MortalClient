@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #pragma once
 #include "../../Graphics/Geometry.h"
@@ -52,7 +52,7 @@ public:
     Cursor::State send_cursor(bool pressed,
                               Point<std::int16_t> cursorpos) override;
 
-    void send_line(std::string&& line, LineType type);
+    void send_line(utf8_string&& line, LineType type);
 
 protected:
     Button::State button_pressed(std::uint16_t buttonid) override;
@@ -84,7 +84,7 @@ private:
     bool chatopen;
     ChatTarget chattarget;
 
-    std::vector<std::string> last_entered;
+    std::vector<utf8_string> last_entered;
     std::size_t lastpos;
 
     std::unordered_map<std::int16_t, Text> row_texts;

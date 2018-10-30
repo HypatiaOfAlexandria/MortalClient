@@ -13,7 +13,7 @@
 // GNU Affero General Public License for more details.                      //
 //                                                                          //
 // You should have received a copy of the GNU Affero General Public License //
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.    //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.   //
 //////////////////////////////////////////////////////////////////////////////
 #include "UIStatsInfo.h"
 
@@ -132,16 +132,16 @@ void UIStatsinfo::update_all_stats()
         update_ap();
     }
 
-    statlabels[NAME].change_text(std::string(stats.get_name()));
-    statlabels[GUILD].change_text("");
+    statlabels[NAME].change_text(utf8_string{stats.get_name()});
+    statlabels[GUILD].change_text(u8"");
 
     statlabels[HP].change_text(
         str::concat(std::to_string(stats.get_stat(Maplestat::HP)),
-                    " / ",
+                    u8" / ",
                     std::to_string(stats.get_total(Equipstat::HP))));
     statlabels[MP].change_text(
         str::concat(std::to_string(stats.get_stat(Maplestat::MP)),
-                    " / ",
+                    u8" / ",
                     std::to_string(stats.get_total(Equipstat::MP))));
 
     update_basevstotal(STR, Maplestat::STR, Equipstat::STR);
@@ -151,7 +151,7 @@ void UIStatsinfo::update_all_stats()
 
     statlabels[DAMAGE].change_text(
         str::concat(std::to_string(stats.get_min_damage()),
-                    " ~ ",
+                    u8" ~ ",
                     std::to_string(stats.get_max_damage())));
     if (stats.is_damage_buffed()) {
         statlabels[DAMAGE].change_color(Text::RED);
