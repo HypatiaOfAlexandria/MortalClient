@@ -21,7 +21,7 @@
 #include "../../Graphics/Text.h"
 #include "../../Template/EnumMap.h"
 #include "../../Template/Point.h"
-#include "tinyutf8.h"
+#include "tinyutf8.hpp"
 
 #include <cstdint>
 #include <map>

@@ -19,7 +19,7 @@
 
 #include "../../Graphics/Text.h"
 #include "MapleFrame.h"
-#include "tinyutf8.h"
+#include "tinyutf8.hpp"
 
 namespace jrc
 {

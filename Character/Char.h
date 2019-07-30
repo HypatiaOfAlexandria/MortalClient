@@ -29,7 +29,7 @@
 #include "Look/Afterimage.h"
 #include "Look/CharLook.h"
 #include "Look/PetLook.h"
-#include "tinyutf8.h"
+#include "tinyutf8.hpp"
 
 #include <vector>
 

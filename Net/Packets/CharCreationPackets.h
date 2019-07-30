@@ -17,7 +17,7 @@
 //////////////////////////////////////////////////////////////////////////////
 #pragma once
 #include "../OutPacket.h"
-#include "tinyutf8.h"
+#include "tinyutf8.hpp"
 
 #include <string_view>
 

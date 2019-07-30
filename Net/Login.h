@@ -18,7 +18,7 @@
 #pragma once
 #include "../Character/MapleStat.h"
 #include "../Template/EnumMap.h"
-#include "tinyutf8.h"
+#include "tinyutf8.hpp"
 
 #include <cstdint>
 #include <string>

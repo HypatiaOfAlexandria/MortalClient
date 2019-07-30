@@ -21,7 +21,7 @@
 #include "../../Graphics/Texture.h"
 #include "../../Template/BoolPair.h"
 #include "nlnx/node.hpp"
-#include "tinyutf8.h"
+#include "tinyutf8.hpp"
 
 #include <vector>
 

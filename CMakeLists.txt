@@ -177,8 +177,7 @@ SET(SOURCE_FILES ${Root_CPP}
                  "../boost/boost/container/static_vector.hpp"
                  "../cpptoml/include/cpptoml.h"
                  "../pcg-cpp/include/pcg_random.hpp"
-                 "../tinyutf8/include/tinyutf8.h"
-                 "../tinyutf8/lib/tinyutf8.cpp")
+                 "../tinyutf8/tinyutf8.cpp")
 
 # Adding file globs created above as libraries
 add_library(Audio         ${Audio_CPP})
@@ -206,7 +205,7 @@ add_library(Configuration "Configuration.cpp")
 
 add_library(nlnx          ${nlnx_CPP})
 
-add_library(tinyutf8      "../tinyutf8/lib/tinyutf8.cpp")
+add_library(tinyutf8      "../tinyutf8/tinyutf8.cpp")
 
 # Target executable
 add_executable(JourneyClient ${SOURCE_FILES})
@@ -296,4 +295,4 @@ include_directories("/usr/include")
 include_directories("/usr/include/SDL2")
 include_directories("../cpptoml/include")
 include_directories("../pcg-cpp/include")
-include_directories("../tinyutf8/include")
+include_directories("../tinyutf8")

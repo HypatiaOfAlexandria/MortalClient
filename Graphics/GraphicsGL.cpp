@@ -20,7 +20,7 @@
 #include "../Configuration.h"
 #include "../Console.h"
 #include "../IO/Window.h"
-#include "tinyutf8.h"
+#include "tinyutf8.hpp"
 
 #include <algorithm>
 

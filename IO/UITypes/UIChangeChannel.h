@@ -20,7 +20,7 @@
 #include "../../Template/BoolPair.h"
 #include "../UIDragElement.h"
 #include "boost/container/static_vector.hpp"
-#include "tinyutf8.h"
+#include "tinyutf8.hpp"
 
 #include <optional>
 

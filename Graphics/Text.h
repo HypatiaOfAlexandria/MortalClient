@@ -17,7 +17,7 @@
 //////////////////////////////////////////////////////////////////////////////
 #pragma once
 #include "DrawArgument.h"
-#include "tinyutf8.h"
+#include "tinyutf8.hpp"
 
 #include <cstdint>
 #include <map>

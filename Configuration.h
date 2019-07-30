@@ -18,7 +18,7 @@
 #pragma once
 #include "Template/Point.h"
 #include "cpptoml.h"
-#include "tinyutf8.h"
+#include "tinyutf8.hpp"
 
 #include <cstdint>
 #include <functional>

@@ -21,7 +21,7 @@
 #include "../../Template/Rectangle.h"
 #include "../Cursor.h"
 #include "../Keyboard.h"
-#include "tinyutf8.h"
+#include "tinyutf8.hpp"
 
 #include <functional>
 #include <string_view>

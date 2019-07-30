@@ -53,7 +53,7 @@ file (UI.nx), one from GMS version 154+ should be used.
 * [libtool](https://www.gnu.org/software/libtool/)
 * [sh or bash](https://en.wikipedia.org/wiki/Bourne_shell)
 * [SDL2](https://www.libsdl.org/) / sdl2 / sdl2-dev / libsdl2 / libsdl2-dev
-* [SDL2_mixer](https://www.libsdl.org/projects/SDL_mixer/) / sdl2_mixer /
+* [SDL2\_mixer](https://www.libsdl.org/projects/SDL_mixer/) / sdl2\_mixer /
   libsdl2-mixer / libsdl2-mixer-dev
 * [glut](http://freeglut.sourceforge.net/) / freeglut / freeglut3,
   freeglut3-dev (an implementation of GLUT, including development files,
@@ -91,7 +91,7 @@ $ git clone https://github.com/HypatiaOfAlexandria/NoLifeNx.git nlnx
 # The next command is probably best replaced by navigating to
 # https://sourceforge.net/projects/asio/files/latest/download
 # and downloading from there to get the latest stable version of ASIO.
-$ wget https://downloads.sourceforge.net/project/asio/asio/1.12.1%20%28Stable%29/asio-1.12.1.tar.bz2
+$ wget https://downloads.sourceforge.net/project/asio/asio/1.12.2%20%28Stable%29/asio-1.12.2.tar.bz2
 $ mkdir asio
 $ tar xf asio-* --strip-components=1 -C asio/
 $ rm asio-*
@@ -113,9 +113,9 @@ $ git clone https://github.com/lz4/lz4.git
 # Again, the following command can be replaced by just going to
 # https://www.boost.org/users/download/
 # and downloading the latest version of Boost.
-$ wget https://dl.bintray.com/boostorg/release/1.68.0/source/boost_1_68_0.tar.gz
+$ wget https://dl.bintray.com/boostorg/release/1.70.0/source/boost_1_70_0.tar.bz2
 $ tar xf boost*
-$ rm boost*.tar.gz
+$ rm boost*.tar.bz2
 $ mv boost*/ boost/
 
 $ git clone https://github.com/skystrife/cpptoml.git
@@ -130,22 +130,22 @@ $ export CXX='/usr/bin/clang++'
 $ cd freetype
 $ sh autogen.sh
 $ ./configure
-$ make
+$ make -j
 $ cd ..
 
 $ cd glew
-$ make
+$ make -j
 $ cd ..
 
 $ cd glfw
 $ mkdir build
 $ cd build
-$ cmake ..
-$ make
+$ cmake -GNinja ..
+$ ninja
 $ cd ../..
 
 $ cd lz4
-$ make
+$ make -j
 $ cd ..
 
 $ cd MortalClient
@@ -183,7 +183,7 @@ directory (`MortalClient/build`).
   macOS CL tools come with a libtool, but this installs the GNU version with
   'g' prefix e.g. `glibtoolize`)
 * [SDL2](https://www.libsdl.org/) (`brew install sdl2`)
-* [SDL2_mixer](https://www.libsdl.org/projects/SDL_mixer/)
+* [SDL2\_mixer](https://www.libsdl.org/projects/SDL_mixer/)
   (`brew install sdl2_mixer`)
 * [freeglut](http://freeglut.sourceforge.net/) (`brew install freeglut`; may
   require you to separately install XQuartz, one way to do this is
@@ -260,7 +260,7 @@ $ cd build
 # only build (`-march=native`).
 #
 # Specify `-DCMAKE_CXX_COMPILER_LAUNCHER=ccache` if you are using ccache.
-$ cmake -DCMAKE_BUILD_TYPE=Debug -GNinja..
+$ cmake -DCMAKE_BUILD_TYPE=Debug -GNinja ..
 # Or `ninja -jN` with N being the number of CPU cores you wish to utilize.
 $ ninja
 # For `Release` and `MinSizeRel` builds only:
@@ -290,7 +290,7 @@ $ install_name_tool -change /usr/local/lib/libGLEW.2.1.0.dylib ./libGLEW.2.1.0.d
 $ install_name_tool -change /usr/local/lib/liblz4.1.dylib ./liblz4.1.8.2.dylib JourneyClient
 ```
 
-### Windows NT (Windows 7, 8, 10+) (64-bit only, i.e. amd64/x86_64)
+### Windows NT (Windows 7, 8, 10+) (64-bit only, i.e. amd64/x86\_64)
 
 #### Dependencies
 
@@ -454,7 +454,7 @@ MortalClient uses crypto (`JOURNEY_USE_CRYPTO`), and also uses ASIO
 | Graphics          | [GLFW3](http://www.glfw.org/download.html)                 | zlib/libpng         | OpenGL support | No               | No            |
 | Graphics          | [GLEW](http://glew.sourceforge.net/)                       | Modified BSD/MIT    | OpenGL support | No               | No            |
 | Graphics          | [FreeType](http://www.freetype.org/)                       | FreeType            | -              | No               | No            |
-| Audio             | [SDL2_mixer](https://www.libsdl.org/projects/SDL_mixer/)   | zlib/libpng         | SDL2           | No               | No            |
+| Audio             | [SDL2\_mixer](https://www.libsdl.org/projects/SDL_mixer/)  | zlib/libpng         | SDL2           | No               | No            |
 | Networking        | [Asio](http://think-async.com/) (standalone; no Boost)     | Boost               | -              | Yes              | No            |
 | PRNG              | [PCG](http://www.pcg-random.org/) (C++ implementation)     | Apache 2.0/MIT      | -              | Yes              | No            |
 | Config            | [cpptoml](https://github.com/skystrife/cpptoml)            | MIT                 | -              | Yes              | No            |
