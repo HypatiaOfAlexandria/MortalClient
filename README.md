@@ -1,9 +1,9 @@
 # MortalClient: a continuation of a continuation of JourneyClient
 
-[![License](https://img.shields.io/badge/license-AGPL%20v3%2B-brightgreen.svg)](https://www.gnu.org/licenses/agpl-3.0.html)
-[![C++ standard](https://img.shields.io/badge/C%2B%2B-17-blue.svg)](https://en.wikipedia.org/wiki/C%2B%2B17)
+[![GNU AGPL v3+](https://img.shields.io/badge/license-AGPL%20v3%2B-brightgreen.svg)](https://www.gnu.org/licenses/agpl-3.0.html)
+[![C++17 standard](https://img.shields.io/badge/C%2B%2B-17-blue.svg)](https://en.wikipedia.org/wiki/C%2B%2B17)
 [![clang++ version](https://img.shields.io/badge/clang%2B%2B-8.0.1+-dd66aa.svg)](http://clang.llvm.org/)
-[![Maplestory version](https://img.shields.io/badge/Maplestory-GMS_v83-orange.svg)](https://en.wikipedia.org/wiki/MapleStory)
+[![Global Maplestory version 83](https://img.shields.io/badge/Maplestory-GMS_v83-orange.svg)](https://en.wikipedia.org/wiki/MapleStory)
 
 ## JourneyClient
 
@@ -91,7 +91,7 @@ $ git clone https://github.com/HypatiaOfAlexandria/NoLifeNx.git nlnx
 # The next command is probably best replaced by navigating to
 # https://sourceforge.net/projects/asio/files/latest/download
 # and downloading from there to get the latest stable version of ASIO.
-$ wget https://downloads.sourceforge.net/project/asio/asio/1.12.2%20%28Stable%29/asio-1.12.2.tar.bz2
+$ wget https://downloads.sourceforge.net/project/asio/asio/1.14.0%20%28Stable%29/asio-1.14.0.tar.bz2
 $ mkdir asio
 $ tar xf asio-* --strip-components=1 -C asio/
 $ rm asio-*
@@ -113,7 +113,7 @@ $ git clone https://github.com/lz4/lz4.git
 # Again, the following command can be replaced by just going to
 # https://www.boost.org/users/download/
 # and downloading the latest version of Boost.
-$ wget https://dl.bintray.com/boostorg/release/1.70.0/source/boost_1_70_0.tar.bz2
+$ wget https://dl.bintray.com/boostorg/release/1.71.0/source/boost_1_71_0.tar.bz2
 $ tar xf boost*
 $ rm boost*.tar.bz2
 $ mv boost*/ boost/
@@ -203,7 +203,7 @@ $ git clone https://github.com/HypatiaOfAlexandria/NoLifeNx.git nlnx
 # The next command is probably best replaced by navigating to
 # https://sourceforge.net/projects/asio/files/latest/download
 # and downloading from there to get the latest stable version of ASIO.
-$ wget https://downloads.sourceforge.net/project/asio/asio/1.12.2%20%28Stable%29/asio-1.12.2.tar.bz2
+$ wget https://downloads.sourceforge.net/project/asio/asio/1.14.0%20%28Stable%29/asio-1.14.0.tar.bz2
 $ mkdir asio
 $ tar xf asio-* --strip-components=1 -C asio/
 $ rm asio-*
@@ -223,7 +223,7 @@ $ git clone https://github.com/lz4/lz4.git
 # Again, the following command can be replaced by just going to
 # https://www.boost.org/users/download/
 # and downloading the latest version of Boost.
-$ wget https://dl.bintray.com/boostorg/release/1.70.0/source/boost_1_70_0.tar.bz2
+$ wget https://dl.bintray.com/boostorg/release/1.71.0/source/boost_1_71_0.tar.bz2
 $ tar xf boost*
 $ rm boost*.tar.bz2
 $ mv boost*/ boost/
@@ -280,14 +280,14 @@ the tarballs:
 * `libGLEW.dylib` (found as `glew/lib/libGLEW.dylib`, this should be a symlink
   to `libGLEW.2.1.0.dylib` or something like that, so be aware)
 * `liblz4.dylib` (found as `lz4/lib/liblz4.dylib`, this should be a symlink to
-  `liblz4.1.8.2.dylib` or something like that, so be aware)
+  `liblz4.1.9.2.dylib` or something like that, so be aware)
 
 Now that you have the locations of these dylibs, you can change the executable
 to point to them. Like this, for example:
 
 ```bash
 $ install_name_tool -change /usr/local/lib/libGLEW.2.1.0.dylib ./libGLEW.2.1.0.dylib JourneyClient
-$ install_name_tool -change /usr/local/lib/liblz4.1.dylib ./liblz4.1.8.2.dylib JourneyClient
+$ install_name_tool -change /usr/local/lib/liblz4.1.dylib ./liblz4.1.9.2.dylib JourneyClient
 ```
 
 ### Windows NT (Windows 7, 8, 10+) (64-bit only, i.e. amd64/x86\_64)
@@ -320,7 +320,7 @@ $ git clone https://github.com/DuffsDevice/tinyutf8.git
 Navigate to
 [https://sourceforge.net/projects/asio/files/latest/download](https://sourceforge.net/projects/asio/files/latest/download)
 and download `asio-X.Y.Z.zip`, whatever the latest version is
-(`asio-1.12.2.zip` as of this writing).
+(`asio-1.14.0.zip` as of this writing).
 
 Use 7-Zip to extract the contents of the asio ZIP file to a directory called
 `asio`.
@@ -343,7 +343,7 @@ Use 7-Zip to extract the contents of the glew ZIP file into a directory called
 
 Navigate to
 [https://github.com/lz4/lz4/releases](https://github.com/lz4/lz4/releases) and
-download the latest version of LZ4 for "win64" (called `lz4_v1_9_1_win64.zip`
+download the latest version of LZ4 for "win64" (called `lz4_win64_v1_9_2.zip`
 as of this writing).
 
 Use 7-Zip to extract the contents of the LZ4 ZIP file into a directory called
@@ -351,7 +351,7 @@ Use 7-Zip to extract the contents of the LZ4 ZIP file into a directory called
 
 Navigate to
 [https://www.boost.org/users/download/](https://www.boost.org/users/download/)
-and download the latest version of Boost for Windows (called `boost_1_70_0.7z`
+and download the latest version of Boost for Windows (called `boost_1_71_0.7z`
 as of this writing).
 
 Use 7-Zip to extract the contents of the Boost 7z file into a directory called
@@ -401,7 +401,7 @@ where you cloned all of the repos and extracted the ZIP files:
 
 * `freetype.dll` (found as `freetype\win64\freetype.dll`)
 * `glew32.dll` (found as `glew\bin\Release\x64\glew32.dll`)
-* `liblz4.dll` (found as `lz4\dll\liblz4.so.1.8.2.dll`, the version number may
+* `liblz4.dll` (found as `lz4\dll\liblz4.so.1.9.2.dll`, the version number may
   be different and you will have to rename your copied version to `liblz4.dll`)
 
 ## Compiler
@@ -409,7 +409,7 @@ where you cloned all of the repos and extracted the ZIP files:
 MortalClient is built against the latest stable version of
 [Clang](http://clang.llvm.org/) (nominally 8.0.1 as of this writing), again for
 cross-platform considerations and efficiency. [The GCC](https://gcc.gnu.org/)
-(version 9.1.X as of this writing) is another excellent choice, especially for
+(version 9.1.0 as of this writing) is another excellent choice, especially for
 those on GNU+Linux operating systems (or other OSs which default to GCC), but
 GCC is **not** officially supported by MortalClient.
 
